@@ -272,33 +272,10 @@
             </div>
         </section>
 
-        <!-- Experience Section -->
-        <section class="bento-card card-experience" aria-label="Work Experience">
-            <div class="card-header">Experience</div>
-            {{experience_section}}
-        </section>
-
-        <!-- Education & Achievements -->
-        <section class="bento-card card-education" aria-label="Education and Achievements">
-            <div class="card-header">Education</div>
-            {{education_section}}
-            <br>
-            <div class="card-header">Achievements</div>
-            {{achievements_section}}
-        </section>
-
-        <!-- Skills Section -->
-        <section class="bento-card card-skills" aria-label="Skills">
-            <div class="card-header">Core Competencies</div>
-            {{skills_section}}
-        </section>
-
-        <!-- Projects Section -->
-        <section class="card-projects" aria-label="Projects">
-            <!-- Note: main.py needs to wrap projects in .project divs -->
-            <!-- The old template just dumped them linearly. This container grid handles the layout. -->
-            {{projects_section}}
-        </section>
+        {{experience_section}}
+        {{education_achievements_section}}
+        {{skills_section}}
+        {{projects_section}}
 
     </main>
 

@@ -94,58 +94,70 @@ def generate_portfolio_html(resume_text: str) -> str:
     html_code = html_code.replace("{{about_section}}", about_html)
     
     edu_list = resume_data.get("education", [])
-    edu_html = ''
-    if isinstance(edu_list, list):
-        for edu in edu_list:
-            if isinstance(edu, dict):
-                edu_html += f'<div class="education"><h3>{edu.get("degree", "")}</h3><p><strong>{edu.get("institution", "")}</strong> {edu.get("year", "")}</p></div>'
-    html_code = html_code.replace("{{education_section}}", edu_html)
+    achievements_list = resume_data.get("achievements", [])
+    edu_achievements_html = ''
+    has_edu = isinstance(edu_list, list) and len(edu_list) > 0
+    has_ach = isinstance(achievements_list, list) and len(achievements_list) > 0
+    if has_edu or has_ach:
+        edu_achievements_html = '<section class="bento-card card-education" aria-label="Education and Achievements">'
+        if has_edu:
+            edu_achievements_html += '<div class="card-header">Education</div>'
+            for edu in edu_list:
+                if isinstance(edu, dict):
+                    edu_achievements_html += f'<div class="education"><h3>{edu.get("degree", "")}</h3><p><strong>{edu.get("institution", "")}</strong> {edu.get("year", "")}</p></div>'
+        if has_edu and has_ach:
+            edu_achievements_html += '<br>'
+        if has_ach:
+            edu_achievements_html += '<div class="card-header">Achievements</div><ul>'
+            for ach in achievements_list:
+                edu_achievements_html += f'<li style="list-style:disc; margin-left:20px; margin-bottom:5px">{ach}</li>'
+            edu_achievements_html += '</ul>'
+        edu_achievements_html += '</section>'
+    html_code = html_code.replace("{{education_achievements_section}}", edu_achievements_html)
 
     # Experience
     exp_list = resume_data.get("experience", [])
     exp_html = ''
-    if isinstance(exp_list, list):
+    if isinstance(exp_list, list) and len(exp_list) > 0:
+        exp_html = '<section class="bento-card card-experience" aria-label="Work Experience"><div class="card-header">Experience</div>'
         for exp in exp_list:
             if isinstance(exp, dict):
                 exp_html += f'<div class="job"><h3>{exp.get("role", "")} at {exp.get("company", "")}</h3><p class="duration">{exp.get("duration", "")}</p><p>{exp.get("description", "")}</p></div>'
+        exp_html += '</section>'
     html_code = html_code.replace("{{experience_section}}", exp_html)
 
     # Projects
     proj_list = resume_data.get("projects", [])
     proj_html = ''
-    if isinstance(proj_list, list):
+    if isinstance(proj_list, list) and len(proj_list) > 0:
+        proj_html = '<section class="card-projects" aria-label="Projects">'
         for proj in proj_list:
             if isinstance(proj, dict):
                 proj_html += f'<div class="project"><h3>{proj.get("title", "")}</h3><p>{proj.get("description", "")}</p><p style="margin-top:0.5rem"><strong>Technologies:</strong> {proj.get("technologies", "")}</p></div>'
+        proj_html += '</section>'
     html_code = html_code.replace("{{projects_section}}", proj_html)
 
     # Skills
     skills_list = resume_data.get("skills", [])
-    skills_html = '<ul>' if skills_list else ''
-    if isinstance(skills_list, list):
+    skills_html = ''
+    if isinstance(skills_list, list) and len(skills_list) > 0:
+        skills_html = '<section class="bento-card card-skills" aria-label="Skills"><div class="card-header">Core Competencies</div><ul>'
         for skill in skills_list:
             skills_html += f'<li>{skill}</li>'
-    if skills_list: skills_html += '</ul>'
+        skills_html += '</ul></section>'
     html_code = html_code.replace("{{skills_section}}", skills_html)
-
-    # Achievements
-    achievements_list = resume_data.get("achievements", [])
-    achievements_html = '<ul>' if achievements_list else ''
-    if isinstance(achievements_list, list):
-        for ach in achievements_list:
-            achievements_html += f'<li style="list-style:disc; margin-left:20px; margin-bottom:5px">{ach}</li>'
-    if achievements_list: achievements_html += '</ul>'
-    html_code = html_code.replace("{{achievements_section}}", achievements_html)
 
     phone = resume_data.get("phone", "")
     html_code = html_code.replace("{{phone_section}}", f'<div class="contact-item"><span>Phone</span><a href="tel:{phone}">{phone}</a></div>' if phone else "")
     
     linkedin = resume_data.get("linkedin", "")
     github = resume_data.get("github", "")
-    links_html = "<p>Links: "
-    if linkedin: links_html += f"<a href='{linkedin}'>LinkedIn</a> "
-    if github: links_html += f"<a href='{github}'>GitHub</a>"
-    links_html += "</p>" if (linkedin or github) else ""
+    links_html = ""
+    if linkedin or github:
+        links_html = "<p>Links: "
+        if linkedin: links_html += f"<a href='{linkedin}'>LinkedIn</a> "
+        if github: links_html += f"<a href='{github}'>GitHub</a>"
+        links_html += "</p>"
     html_code = html_code.replace("{{links_section}}", links_html)
 
     return html_code
