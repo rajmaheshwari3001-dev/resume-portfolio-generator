@@ -1,19 +1,21 @@
-# Sample Resume
-
-John Doe
-Software Engineer
-Email: john.doe@example.com
-Phone: (123) 456-7890
+Rajesh Kumar
+Full Stack Web Developer
+Email: rajesh.kumar@email.in
+Phone: +91 98765 43210
+Location: Bengaluru, Karnataka
 
 Summary:
-Passionate software engineer with experience in Python and web development.
+Motivated Full Stack Developer with a passion for building scalable web applications. Experienced in Python, React, and modern UI design.
 
 Experience:
-- Software Developer at TechCorp (2020 - Present)
-  Developed web applications using Python and React.
+- Web Developer Intern at TechSolutions India (2023 - Present)
+  Built responsive landing pages and integrated REST APIs using FastAPI and React.
 
 Education:
-- B.S. in Computer Science, State University (2016 - 2020)
+- B.Tech in Computer Science, Visvesvaraya Technological University (2020 - 2024)
 
 Skills:
-Python, HTML, CSS, JavaScript, Git
+Python, JavaScript, HTML/CSS, React, FastAPI, GSAP
+
+Projects:
+- Portfolio Generator Web App: A premium web app built with Python and GSAP.
