@@ -68,7 +68,7 @@ def generate_portfolio_html(resume_text: str) -> str:
     {resume_text}
     """
     
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-flash-latest')
     response = model.generate_content(prompt, generation_config={"temperature": 0.4})
     ai_response_text = response.text.replace('```json', '').replace('```', '').strip()
     
