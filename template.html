@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional Portfolio of {{name}} - {{title}}. Discover my experience, projects, and skills.">
+    <meta name="keywords" content="{{name}}, Portfolio, {{title}}, Resume, Projects, Skills">
+    <meta name="author" content="{{name}}">
     <title>Portfolio | {{name}}</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -177,6 +180,7 @@
             flex-wrap: wrap;
             gap: 0.75rem;
             list-style: none;
+            padding: 0;
         }
         
         .card-skills li {
@@ -246,17 +250,17 @@
 </head>
 <body>
 
-    <div class="bento-grid">
+    <main class="bento-grid" aria-label="Portfolio Grid">
         
         <!-- Hero Section -->
-        <div class="bento-card card-hero">
+        <header class="bento-card card-hero" aria-label="Hero Section">
             <h1>{{name}}</h1>
             <h2>{{title}}</h2>
             {{about_section}}
-        </div>
+        </header>
 
         <!-- Contact Section -->
-        <div class="bento-card card-contact">
+        <section class="bento-card card-contact" aria-label="Contact Information">
             <div class="card-header">Contact</div>
             <div class="contact-links">
                 <div class="contact-item">
@@ -266,37 +270,37 @@
                 {{phone_section}}
                 {{links_section}}
             </div>
-        </div>
+        </section>
 
         <!-- Experience Section -->
-        <div class="bento-card card-experience">
+        <section class="bento-card card-experience" aria-label="Work Experience">
             <div class="card-header">Experience</div>
             {{experience_section}}
-        </div>
+        </section>
 
         <!-- Education & Achievements -->
-        <div class="bento-card card-education">
+        <section class="bento-card card-education" aria-label="Education and Achievements">
             <div class="card-header">Education</div>
             {{education_section}}
             <br>
             <div class="card-header">Achievements</div>
             {{achievements_section}}
-        </div>
+        </section>
 
         <!-- Skills Section -->
-        <div class="bento-card card-skills">
+        <section class="bento-card card-skills" aria-label="Skills">
             <div class="card-header">Core Competencies</div>
             {{skills_section}}
-        </div>
+        </section>
 
         <!-- Projects Section -->
-        <div class="card-projects">
+        <section class="card-projects" aria-label="Projects">
             <!-- Note: main.py needs to wrap projects in .project divs -->
             <!-- The old template just dumped them linearly. This container grid handles the layout. -->
             {{projects_section}}
-        </div>
+        </section>
 
-    </div>
+    </main>
 
 </body>
 </html>
