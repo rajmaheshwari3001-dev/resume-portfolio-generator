@@ -49,6 +49,28 @@ You can also run the stunning web app locally:
 ## 🧠 Prompt Architecture
 Our prompt rigorously enforces a strict JSON format. It aggressively commands Gemini to **never invent data** (hallucinate). Missing fields are intelligently handled and safely suppressed in the final HTML.
 
+## 🔄 Workflow
+1. The user places their raw resume text inside `resume.txt`.
+2. `main.py` is executed, which safely validates the text (enforcing a 40-word minimum).
+3. The cleaned text is sent to the Gemini API with a strict structural prompt.
+4. Gemini returns a fully structured JSON response mapping to the required fields.
+5. `main.py` parses the JSON and dynamically maps the data into `template.html`, skipping any empty sections.
+6. The final compiled HTML is saved as `portfolio.html`.
+
+## 🧪 Testing Results
+- **Missing `resume.txt`**: Throws explicit file-not-found error.
+- **Short/Empty Resume**: Safely rejected by the >40 words validation check.
+- **Missing API Key**: Immediately halts with configuration error message.
+- **API High Demand (503)**: Handled gracefully using exponential backoff retries.
+- **Missing Resume Sections**: Successfully skips creating HTML wrappers for empty fields, preventing UI bugs.
+
+## 📸 Screenshots
+*(Insert your screenshot of the running Python program here)*
+![Python Program Execution](#)
+
+*(Insert your screenshot of the generated portfolio here)*
+![Generated Portfolio](#)
+
 ## ⚠️ Limitations
 * **Hallucination Risk:** Although strongly suppressed, generative AI can sometimes hallucinate. Always review the downloaded portfolio.
 * **Layout:** The current template layout is fixed, dynamically hiding sections that lack data.

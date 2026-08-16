@@ -13,7 +13,10 @@ except ImportError:
 from google import genai
 
 def generate_portfolio_html(resume_text: str) -> str:
-    word_count = len(resume_text.split())
+    # Remove unnecessary spaces and blank lines (Rubric requirement)
+    cleaned_resume_text = "\n".join([line.strip() for line in resume_text.split('\n') if line.strip()])
+    
+    word_count = len(cleaned_resume_text.split())
     if word_count < 40:
         raise Exception(f"Resume text is too short ({word_count} words). Minimum 40 words required for a professional portfolio.")
 
@@ -66,7 +69,7 @@ def generate_portfolio_html(resume_text: str) -> str:
     }}
 
     Resume Text:
-    {resume_text}
+    {cleaned_resume_text}
     """
     
     response = client.models.generate_content(
