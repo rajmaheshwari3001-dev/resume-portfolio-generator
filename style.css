@@ -1,11 +1,11 @@
 :root {
-    --bg-dark: #020617;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --accent-color: #06b6d4; /* Vibrant Cyan */
-    --accent-dim: #8b5cf6; /* Electric Purple */
-    --panel-bg: rgba(15, 23, 42, 0.6);
-    --panel-border: rgba(255, 255, 255, 0.1);
+    --bg-dark: #050507;
+    --text-main: #F5F5F7;
+    --text-muted: #8B8B96;
+    --accent-color: #D6B77A; /* Soft Champagne */
+    --accent-dim: #8B5CF6; /* Electric Violet */
+    --panel-bg: rgba(17, 17, 24, 0.6);
+    --panel-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
