@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Portfolio Architect | Premium</title>
+    <title>AI-Assisted Resume Portfolio Generator</title>
     <!-- Use premium geometric sans-serif fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,12 +20,7 @@
     <!-- Navbar -->
     <nav class="premium-nav">
         <div class="logo">
-            <span class="logo-bold">AI</span> ARCHITECT
-        </div>
-        <div class="nav-links">
-            <a href="#" class="magnetic">Studio</a>
-            <a href="#" class="magnetic">Templates</a>
-            <a href="#" class="magnetic">Showcase</a>
+            <span class="logo-bold">Portfolio</span> Generator
         </div>
     </nav>
 
@@ -36,10 +31,10 @@
         <div class="console-panel glass-panel">
             <div class="panel-header">
                 <span class="step-indicator">01</span>
-                <h2>Data Ingestion</h2>
+                <h2>Upload Resume</h2>
             </div>
             
-            <p class="panel-subtitle">Upload your raw text or paste it below to begin the architectural synthesis.</p>
+            <p class="panel-subtitle">Upload your resume.txt or paste your resume text below to generate your portfolio.</p>
 
             <div class="upload-zone magnetic-zone" id="drop-zone">
                 <input type="file" id="file-input" accept=".txt" hidden>
@@ -64,7 +59,7 @@
             </div>
 
             <button id="generate-btn" class="action-btn magnetic-btn" disabled>
-                <span class="btn-text">Synthesize Portfolio</span>
+                <span class="btn-text">Generate Portfolio</span>
                 <span class="loader" hidden></span>
             </button>
             <div id="error-message" class="error-toast" hidden></div>
@@ -75,7 +70,7 @@
             <div class="panel-header canvas-header">
                 <div class="header-left">
                     <span class="step-indicator">02</span>
-                    <h2>The Masterpiece</h2>
+                    <h2>Portfolio Preview</h2>
                 </div>
                 <button id="download-btn" class="download-btn magnetic" hidden>
                     <span>Download</span>
@@ -91,8 +86,8 @@
                 <!-- Empty State -->
                 <div class="stage-empty-state">
                     <div class="abstract-ring"></div>
-                    <h3 class="abstract-title">Canvas Empty</h3>
-                    <p class="abstract-desc">Inject data to begin synthesis.</p>
+                    <h3 class="abstract-title">No Portfolio Yet</h3>
+                    <p class="abstract-desc">Upload data to generate.</p>
                 </div>
                 
                 <!-- Iframe for injected HTML -->

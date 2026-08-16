@@ -81,7 +81,7 @@ resumeInput.addEventListener('input', validateInput);
 function validateInput() {
     if (resumeInput.value.trim().length > 50) {
         generateBtn.disabled = false;
-        statusBadgeText.textContent = " Ready for Synthesis";
+        statusBadgeText.textContent = " Ready to Generate";
         pulseDot.classList.add('active');
         
         // GSAP pulse
@@ -107,8 +107,8 @@ generateBtn.addEventListener('click', async () => {
     errorMsg.hidden = true;
     emptyState.hidden = false;
     
-    emptyState.querySelector('h3').textContent = "Synthesizing...";
-    emptyState.querySelector('p').textContent = "Processing neural nodes.";
+    emptyState.querySelector('h3').textContent = "Generating...";
+    emptyState.querySelector('p').textContent = "Building your portfolio.";
     iframe.hidden = true;
     downloadBtn.hidden = true;
     pulseDot.style.animationDuration = "0.5s";
@@ -123,7 +123,7 @@ generateBtn.addEventListener('click', async () => {
         const data = await response.json();
 
         if (!response.ok) {
-            throw new Error(data.error || "Synthesis failed.");
+            throw new Error(data.error || "Generation failed.");
         }
 
         generatedHtml = data.html;
@@ -147,7 +147,7 @@ generateBtn.addEventListener('click', async () => {
     } catch (error) {
         showError(error.message);
         emptyState.hidden = false;
-        emptyState.querySelector('h3').textContent = "Synthesis Error";
+        emptyState.querySelector('h3').textContent = "Generation Error";
         emptyState.querySelector('p').textContent = "Please verify your input.";
         iframe.hidden = true;
     } finally {

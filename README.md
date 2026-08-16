@@ -6,20 +6,20 @@
   
   <br />
   
-  <h1>✨ AI Portfolio Architect</h1>
-  <p><b>Transform raw text into an award-winning, stunning portfolio in seconds.</b></p>
+  <h1>AI-Assisted Resume Portfolio Generator</h1>
+  <p><b>Transform your resume into a clean, professional, and portable portfolio webpage in seconds.</b></p>
 </div>
 
 ---
 
-## 🌟 The Vision
-The **AI Portfolio Architect** goes far beyond standard resume parsers. Built with a luxurious, custom-cursor, magnetic-hover frontend and powered by a robust Python/FastAPI backend, it uses the **Google Gemini API** to synthesize unstructured text into a fully formatted, portable HTML masterpiece.
+## 🌟 The Project
+The **AI-Assisted Resume Portfolio Generator** uses the **Google Gemini API** to synthesize unstructured resume text into a fully formatted, portable HTML portfolio. Built with a clean Python/FastAPI backend and a modern web interface.
 
 ## 🚀 Key Features
-- **Insane UI/UX**: Custom haptics, GSAP animations, magnetic buttons, and glassmorphism panels.
-- **AI-Powered Synthesis**: Gemini accurately extracts Education, Experience, Skills, and Projects without hallucination.
-- **Portable Export**: Instantly download a 100% self-contained `portfolio.html` with beautiful embedded styling.
-- **Zero-Config Deployment**: Built specifically to deploy perfectly on Vercel as a serverless Python function.
+- **Clean UI/UX**: Straightforward, professional interface for rapid portfolio generation.
+- **AI-Powered Extraction**: Gemini accurately extracts Education, Experience, Skills, and Projects from plain text.
+- **Portable Export**: Instantly download a 100% self-contained `portfolio.html` with a beautiful Bento Box layout and embedded CSS.
+- **Zero-Config Deployment**: Built to deploy seamlessly on serverless platforms like Vercel.
 
 ## 🛠 Setup & Run Instructions
 
