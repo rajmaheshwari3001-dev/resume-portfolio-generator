@@ -80,7 +80,7 @@ def generate_portfolio_html(resume_text: str) -> str:
     """
     
     response = client.models.generate_content(
-        model='gemini-1.5-flash',
+        model='gemini-flash-latest',
         contents=prompt,
         config=genai.types.GenerateContentConfig(temperature=0.4)
     )
