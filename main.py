@@ -9,26 +9,8 @@ try:
     load_dotenv()
 except ImportError:
     pass
-try:
-    from fastapi import FastAPI, HTTPException, Request
-    from fastapi.responses import HTMLResponse, JSONResponse
-    from fastapi.staticfiles import StaticFiles
-    from pydantic import BaseModel
-    
-    app = FastAPI()
-    
-    class ResumeRequest(BaseModel):
-        prompt: str
-        
-except ImportError:
-    # If the user is running this in CLI mode without FastAPI installed, 
-    # we gracefully ignore it since the CLI block at the bottom will handle execution.
-    app = None
-    pass
 
 from google import genai
-
-
 
 def generate_portfolio_html(resume_text: str) -> str:
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -92,11 +74,15 @@ def generate_portfolio_html(resume_text: str) -> str:
     
     resume_data = json.loads(ai_response_text)
     
+    # We must find template.html relative to this file, or the CWD
     template_path = os.path.join(os.path.dirname(__file__), "template.html")
     if not os.path.exists(template_path):
-        raise Exception("Template file not found.")
+        # Fallback to CWD if running from a different context
+        template_path = "template.html"
+        if not os.path.exists(template_path):
+            raise Exception("template.html file not found.")
         
-    with open(template_path, "r") as f:
+    with open(template_path, "r", encoding="utf-8") as f:
         html_code = f.read()
         
     html_code = html_code.replace("{{name}}", resume_data.get("name", "Your Name"))
@@ -163,20 +149,6 @@ def generate_portfolio_html(resume_text: str) -> str:
     html_code = html_code.replace("{{links_section}}", links_html)
 
     return html_code
-
-if app:
-    @app.post("/api/generate")
-    async def api_generate(req: ResumeRequest):
-        try:
-            html = generate_portfolio_html(req.prompt)
-            return {"html": html}
-        except Exception as e:
-            return JSONResponse(status_code=500, content={"error": str(e)})
-
-    @app.get("/")
-    async def serve_index():
-        with open(os.path.join(os.path.dirname(__file__), "index.html"), "r") as f:
-            return HTMLResponse(content=f.read())
 
 if __name__ == "__main__":
     import sys

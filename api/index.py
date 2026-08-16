@@ -1,0 +1,28 @@
+import os
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse, JSONResponse
+from pydantic import BaseModel
+
+# Import the generation logic from our CLI script
+from main import generate_portfolio_html
+
+app = FastAPI()
+
+class ResumeRequest(BaseModel):
+    prompt: str
+
+@app.post("/api/generate")
+async def api_generate(req: ResumeRequest):
+    try:
+        html = generate_portfolio_html(req.prompt)
+        return {"html": html}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+@app.get("/")
+async def serve_index():
+    # Serve the index.html from the parent directory
+    parent_dir = os.path.dirname(os.path.dirname(__file__))
+    index_path = os.path.join(parent_dir, "index.html")
+    with open(index_path, "r", encoding="utf-8") as f:
+        return HTMLResponse(content=f.read())
