@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Rajesh Kumar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #020617;
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #06b6d4; /* Vibrant Cyan */
+            --accent-glow: rgba(6, 182, 212, 0.3);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background: radial-gradient(circle at top right, #0f172a 0%, #020617 100%);
+            color: var(--text-main);
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            gap: 1.5rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* Generic Card Styling */
+        .bento-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px var(--accent-glow);
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+
+        .card-header {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Hero Card (Spans 3 cols) */
+        .card-hero {
+            grid-column: span 3;
+            grid-row: span 2;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(6, 182, 212, 0.1) 100%);
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.1);
+        }
+        
+        .card-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.03em;
+        }
+        
+        .card-hero h2 {
+            font-size: 1.5rem;
+            color: var(--accent);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 80%;
+            line-height: 1.6;
+        }
+
+        /* Contact Card (Spans 1 col) */
+        .card-contact {
+            grid-column: span 1;
+            grid-row: span 2;
+            justify-content: space-between;
+        }
+        
+        .contact-item {
+            margin-bottom: 1rem;
+        }
+        
+        .contact-item span {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+        
+        .contact-item a, .contact-item div {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+        
+        .contact-item a:hover {
+            color: var(--accent);
+        }
+
+        /* Experience (Spans 2 cols) */
+        .card-experience {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .job {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .job:last-child {
+            margin-bottom: 0; padding-bottom: 0; border-bottom: none;
+        }
+
+        .job h3 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+        .job .duration { font-size: 0.85rem; color: var(--accent); margin-bottom: 0.75rem; display: block; font-weight: 500;}
+        .job p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;}
+
+        /* Education (Spans 2 cols) */
+        .card-education {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+        
+        .education { margin-bottom: 1rem; }
+        .education h3 { font-size: 1.1rem; }
+        .education .duration { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Skills (Spans 4 cols, row flow) */
+        .card-skills {
+            grid-column: span 4;
+        }
+        
+        .card-skills ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            list-style: none;
+        }
+        
+        .card-skills li {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #e0f2fe;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        .card-skills li:hover {
+            background: rgba(6, 182, 212, 0.2);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* Projects (Spans 4 cols) */
+        .card-projects {
+            grid-column: span 4;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+
+        .project {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .project:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px var(--accent-glow);
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+
+        .project h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+        .project p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+            .card-hero, .card-skills, .card-projects { grid-column: span 2; }
+            .card-projects { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .bento-card, .card-hero, .card-contact, .card-experience, .card-education, .card-skills, .card-projects {
+                grid-column: span 1;
+            }
+            .card-hero h1 { font-size: 2.5rem; }
+            body { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bento-grid">
+        
+        <!-- Hero Section -->
+        <div class="bento-card card-hero">
+            <h1>Rajesh Kumar</h1>
+            <h2>Full Stack Web Developer</h2>
+            <p>Motivated Full Stack Developer with a passion for building scalable web applications. Experienced in Python, React, and modern UI design.</p>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="bento-card card-contact">
+            <div class="card-header">Contact</div>
+            <div class="contact-links">
+                <div class="contact-item">
+                    <span>Email</span>
+                    <a href="mailto:rajesh.kumar@email.in">rajesh.kumar@email.in</a>
+                </div>
+                <div class="contact-item"><span>Phone</span><a href="tel:+91 98765 43210">+91 98765 43210</a></div>
+                <p>Links: 
+            </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="bento-card card-experience">
+            <div class="card-header">Experience</div>
+            <div class="job"><h3>Web Developer Intern at TechSolutions India</h3><p class="duration">2023 - Present</p><p>Built responsive landing pages and integrated REST APIs using FastAPI and React.</p></div>
+        </div>
+
+        <!-- Education & Achievements -->
+        <div class="bento-card card-education">
+            <div class="card-header">Education</div>
+            <div class="education"><h3>B.Tech in Computer Science</h3><p><strong>Visvesvaraya Technological University</strong> 2020 - 2024</p></div>
+            <br>
+            <div class="card-header">Achievements</div>
+            
+        </div>
+
+        <!-- Skills Section -->
+        <div class="bento-card card-skills">
+            <div class="card-header">Core Competencies</div>
+            <ul><li>Python</li><li>JavaScript</li><li>HTML/CSS</li><li>React</li><li>FastAPI</li><li>GSAP</li></ul>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="card-projects">
+            <!-- Note: main.py needs to wrap projects in .project divs -->
+            <!-- The old template just dumped them linearly. This container grid handles the layout. -->
+            <div class="project"><h3>Portfolio Generator Web App</h3><p>A premium web app built with Python and GSAP.</p><p style="margin-top:0.5rem"><strong>Technologies:</strong> Python, GSAP</p></div>
+        </div>
+
+    </div>
+
+</body>
+</html>

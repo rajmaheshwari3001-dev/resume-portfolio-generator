@@ -12,46 +12,47 @@
 
 ---
 
-## 🌟 The Project
-The **AI-Assisted Resume Portfolio Generator** uses the **Google Gemini API** to synthesize unstructured resume text into a fully formatted, portable HTML portfolio. Built with a clean Python/FastAPI backend and a modern web interface.
+# AI-Assisted Resume Portfolio Generator
 
-## 🚀 Key Features
-- **Clean UI/UX**: Straightforward, professional interface for rapid portfolio generation.
-- **AI-Powered Extraction**: Gemini accurately extracts Education, Experience, Skills, and Projects from plain text.
-- **Portable Export**: Instantly download a 100% self-contained `portfolio.html` with a beautiful Bento Box layout and embedded CSS.
-- **Zero-Config Deployment**: Built to deploy seamlessly on serverless platforms like Vercel.
+A fully autonomous Python command-line tool that parses an unstructured `resume.txt` file and leverages Google's Gemini AI to synthesize a beautifully structured HTML portfolio.
+
+## ✨ Features
+*   **Intelligent Data Extraction:** Uses Gemini AI to accurately extract semantic meaning (experience, education, skills, projects) from plain text.
+*   **Strict JSON Enforcement:** The model is aggressively prompted to return ONLY valid JSON and to never hallucinate data.
+*   **Automated HTML Generation:** Injects the synthesized JSON data into a clean, modern `template.html`.
+*   **High-Demand Resilience:** Includes an automatic exponential backoff/retry loop to gracefully handle Google API `503 UNAVAILABLE` errors.
 
 ## 🛠 Setup & Run Instructions
 
-### 1. Local CLI Mode (Rubric Requirement)
-You can run the generator entirely locally in your terminal. It will automatically read `resume.txt` and generate `portfolio.html`.
-1. Clone this repository.
-2. Install dependencies: `pip install -r requirements.txt`
-3. Set your API key in the terminal (Windows):
+### Prerequisites
+1. Python 3.10+
+2. A Gemini API Key from Google AI Studio.
+
+### Local Installation
+1. Clone this repository to your local machine.
+2. Install dependencies:
    ```bash
-   set GEMINI_API_KEY=your_key_here
+   pip install -r requirements.txt
    ```
-4. Run the script:
+3. Copy `.env.example` to `.env` and paste your Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_key_here
+   ```
+
+### Running the Generator
+1. Ensure your resume text is saved inside `resume.txt` in the project root.
+2. Run the script:
    ```bash
    python main.py
    ```
-   *The console will output the success message, and `portfolio.html` will appear in the folder.*
+3. The console will read the text, synthesize the portfolio, and automatically handle any AI server load spikes.
+4. When successful, a `portfolio.html` file will be generated in the same directory! Double-click it to view your stunning portfolio in any web browser.
 
-### 2. Web App Mode
-You can also run the stunning web app locally:
-1. Copy `.env.example` to `.env` and paste your Gemini API key.
-2. Start the FastAPI server:
-   ```bash
-   uvicorn main:app --reload
-   ```
-3. Open `http://localhost:8000` in your browser.
+## 🧠 Prompt Architecture & Defense
+Our prompt rigorously enforces a strict JSON format. It explicitly commands the Gemini model to **never invent data** (hallucinate). Missing fields are intelligently handled and safely suppressed in the final HTML. The system uses Google's modern `google-genai` SDK and defaults to `gemini-flash-latest` for optimal speed and extraction accuracy.
 
-## 🧠 Prompt Architecture
-Our prompt rigorously enforces a strict JSON format. It aggressively commands Gemini to **never invent data** (hallucinate). Missing fields are intelligently handled and safely suppressed in the final HTML.
-
-## ⚠️ Limitations
-* **Hallucination Risk:** Although strongly suppressed, generative AI can sometimes hallucinate. Always review the downloaded portfolio.
-* **Layout:** The current template layout is fixed, dynamically hiding sections that lack data.
+## 👥 Contributors
+- Rajesh Kumar
 
 ---
 <div align="center">
