@@ -7,12 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #09090b;
-            --card-bg: #18181b;
-            --card-border: #27272a;
-            --text-main: #f4f4f5;
-            --text-muted: #a1a1aa;
-            --accent: #3b82f6;
+            --bg-color: #020617;
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #06b6d4; /* Vibrant Cyan */
+            --accent-glow: rgba(6, 182, 212, 0.3);
             --radius-lg: 24px;
             --radius-md: 16px;
         }
@@ -26,6 +27,7 @@
 
         body {
             background-color: var(--bg-color);
+            background: radial-gradient(circle at top right, #0f172a 0%, #020617 100%);
             color: var(--text-main);
             padding: 2rem;
             min-height: 100vh;
@@ -45,20 +47,24 @@
         /* Generic Card Styling */
         .bento-card {
             background-color: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: var(--radius-lg);
             padding: 2rem;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             overflow: hidden;
             position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .bento-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-            border-color: #3f3f46;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px var(--accent-glow);
+            border-color: rgba(6, 182, 212, 0.4);
         }
 
         .card-header {
@@ -75,7 +81,8 @@
             grid-column: span 3;
             grid-row: span 2;
             justify-content: center;
-            background: linear-gradient(145deg, #18181b 0%, #1f1f22 100%);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(6, 182, 212, 0.1) 100%);
+            box-shadow: 0 0 40px rgba(6, 182, 212, 0.1);
         }
         
         .card-hero h1 {
@@ -173,11 +180,19 @@
         }
         
         .card-skills li {
-            background: #27272a;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: #e0f2fe;
             padding: 0.75rem 1.5rem;
             border-radius: 30px;
             font-size: 0.95rem;
             font-weight: 500;
+            transition: all 0.2s;
+        }
+        .card-skills li:hover {
+            background: rgba(6, 182, 212, 0.2);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+            transform: scale(1.05);
         }
 
         /* Projects (Spans 4 cols) */
@@ -193,15 +208,20 @@
 
         .project {
             background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: var(--radius-lg);
             padding: 2rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         
         .project:hover {
-            transform: translateY(-2px);
-            border-color: #3f3f46;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px var(--accent-glow);
+            border-color: rgba(6, 182, 212, 0.4);
         }
 
         .project h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
