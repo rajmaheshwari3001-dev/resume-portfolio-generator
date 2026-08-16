@@ -67,6 +67,9 @@ function validateInput() {
     }
 }
 
+const downloadBtn = document.getElementById('download-btn');
+let generatedHtml = '';
+
 // Generate Portfolio
 generateBtn.addEventListener('click', async () => {
     const prompt = resumeInput.value.trim();
@@ -77,8 +80,11 @@ generateBtn.addEventListener('click', async () => {
     btnText.hidden = true;
     loader.hidden = false;
     errorMsg.hidden = true;
+    emptyState.hidden = false;
     emptyState.querySelector('h3').textContent = "Sculpting Masterpiece...";
     emptyState.querySelector('p').textContent = "Please wait while our AI engine analyzes your data.";
+    iframe.hidden = true;
+    downloadBtn.hidden = true;
 
     try {
         const response = await fetch('/api/generate', {
@@ -95,25 +101,47 @@ generateBtn.addEventListener('click', async () => {
             throw new Error(data.error || "An error occurred during generation.");
         }
 
+        generatedHtml = data.html;
+
         // Success - Render the HTML in the iframe
         emptyState.hidden = true;
         iframe.hidden = false;
+        downloadBtn.hidden = false;
         
         // Write the returned HTML string into the iframe's document
         const iframeDoc = iframe.contentWindow.document;
         iframeDoc.open();
-        iframeDoc.write(data.html);
+        iframeDoc.write(generatedHtml);
         iframeDoc.close();
 
     } catch (error) {
         showError(error.message);
+        emptyState.hidden = false;
         emptyState.querySelector('h3').textContent = "Generation Failed";
         emptyState.querySelector('p').textContent = "An error occurred. Please try again.";
+        iframe.hidden = true;
     } finally {
         generateBtn.disabled = false;
         btnText.hidden = false;
         loader.hidden = true;
     }
+});
+
+// Download Logic
+downloadBtn.addEventListener('click', () => {
+    if (!generatedHtml) return;
+    
+    const blob = new Blob([generatedHtml], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'portfolio.html';
+    document.body.appendChild(a);
+    a.click();
+    
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 });
 
 function showError(msg) {
