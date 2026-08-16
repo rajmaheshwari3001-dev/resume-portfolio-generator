@@ -86,59 +86,55 @@ def generate_portfolio_html(resume_text: str) -> str:
     html_code = html_code.replace("{{email}}", resume_data.get("email", "Email not provided"))
     
     summary = resume_data.get("summary", "")
-    about_html = f'<section id="about"><h2>About Me</h2><p>{summary}</p></section>' if summary else ""
+    about_html = f'<p>{summary}</p>' if summary else ""
     html_code = html_code.replace("{{about_section}}", about_html)
     
-    # ... Simplified Education generation for brevity
     edu_list = resume_data.get("education", [])
-    edu_html = '<section id="education"><h2>Education</h2><div class="education-list">'
+    edu_html = ''
     if isinstance(edu_list, list):
         for edu in edu_list:
             if isinstance(edu, dict):
                 edu_html += f'<div class="education"><h3>{edu.get("degree", "")}</h3><p><strong>{edu.get("institution", "")}</strong> {edu.get("year", "")}</p></div>'
-    edu_html += '</div></section>' if edu_list else ''
     html_code = html_code.replace("{{education_section}}", edu_html)
 
     # Experience
     exp_list = resume_data.get("experience", [])
-    exp_html = '<section id="experience"><h2>Experience</h2><div class="experience-list">'
+    exp_html = ''
     if isinstance(exp_list, list):
         for exp in exp_list:
             if isinstance(exp, dict):
                 exp_html += f'<div class="job"><h3>{exp.get("role", "")} at {exp.get("company", "")}</h3><p class="duration">{exp.get("duration", "")}</p><p>{exp.get("description", "")}</p></div>'
-    exp_html += '</div></section>' if exp_list else ''
     html_code = html_code.replace("{{experience_section}}", exp_html)
 
     # Projects
     proj_list = resume_data.get("projects", [])
-    proj_html = '<section id="projects"><h2>Projects</h2><div class="projects-list">'
+    proj_html = ''
     if isinstance(proj_list, list):
         for proj in proj_list:
             if isinstance(proj, dict):
-                proj_html += f'<div class="project"><h3>{proj.get("title", "")}</h3><p>{proj.get("description", "")}</p><p><strong>Technologies:</strong> {proj.get("technologies", "")}</p></div>'
-    proj_html += '</div></section>' if proj_list else ''
+                proj_html += f'<div class="project"><h3>{proj.get("title", "")}</h3><p>{proj.get("description", "")}</p><p style="margin-top:0.5rem"><strong>Technologies:</strong> {proj.get("technologies", "")}</p></div>'
     html_code = html_code.replace("{{projects_section}}", proj_html)
 
     # Skills
     skills_list = resume_data.get("skills", [])
-    skills_html = '<section id="skills"><h2>Skills</h2><ul class="skills-list">'
+    skills_html = '<ul>' if skills_list else ''
     if isinstance(skills_list, list):
         for skill in skills_list:
             skills_html += f'<li>{skill}</li>'
-    skills_html += '</ul></section>' if skills_list else ''
+    if skills_list: skills_html += '</ul>'
     html_code = html_code.replace("{{skills_section}}", skills_html)
 
     # Achievements
     achievements_list = resume_data.get("achievements", [])
-    achievements_html = '<section id="achievements"><h2>Achievements</h2><ul class="achievements-list">'
+    achievements_html = '<ul>' if achievements_list else ''
     if isinstance(achievements_list, list):
         for ach in achievements_list:
-            achievements_html += f'<li>{ach}</li>'
-    achievements_html += '</ul></section>' if achievements_list else ''
+            achievements_html += f'<li style="list-style:disc; margin-left:20px; margin-bottom:5px">{ach}</li>'
+    if achievements_list: achievements_html += '</ul>'
     html_code = html_code.replace("{{achievements_section}}", achievements_html)
 
     phone = resume_data.get("phone", "")
-    html_code = html_code.replace("{{phone_section}}", f"<p>Phone: {phone}</p>" if phone else "")
+    html_code = html_code.replace("{{phone_section}}", f'<div class="contact-item"><span>Phone</span><a href="tel:{phone}">{phone}</a></div>' if phone else "")
     
     linkedin = resume_data.get("linkedin", "")
     github = resume_data.get("github", "")

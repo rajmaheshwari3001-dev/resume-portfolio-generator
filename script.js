@@ -1,22 +1,4 @@
-// --- Premium Cursor Logic ---
-const cursorDot = document.getElementById('cursor-dot');
-const cursorOutline = document.getElementById('cursor-outline');
-
-window.addEventListener('mousemove', (e) => {
-    const posX = e.clientX;
-    const posY = e.clientY;
-
-    cursorDot.style.left = `${posX}px`;
-    cursorDot.style.top = `${posY}px`;
-
-    // Smooth follow for outline
-    cursorOutline.animate({
-        left: `${posX}px`,
-        top: `${posY}px`
-    }, { duration: 500, fill: "forwards" });
-});
-
-// Magnetic Hover Effects
+// Magnetic Hover Effects (Simplified without cursor tracking)
 const magnetics = document.querySelectorAll('.magnetic');
 magnetics.forEach(magnetic => {
     magnetic.addEventListener('mousemove', (e) => {
@@ -25,14 +7,10 @@ magnetics.forEach(magnetic => {
         const y = e.pageY - position.top - position.height / 2;
         
         magnetic.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
-        cursorOutline.style.transform = `translate(-50%, -50%) scale(1.5)`;
-        cursorOutline.style.backgroundColor = 'rgba(242, 226, 179, 0.1)';
     });
 
     magnetic.addEventListener('mouseleave', () => {
         magnetic.style.transform = 'translate(0px, 0px)';
-        cursorOutline.style.transform = `translate(-50%, -50%) scale(1)`;
-        cursorOutline.style.backgroundColor = 'transparent';
     });
 });
 
