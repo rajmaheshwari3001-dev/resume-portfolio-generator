@@ -1,13 +1,13 @@
 # 🤖 AI Usage Log
 
-This document tracks how Artificial Intelligence was utilized as a pair-programming assistant during the development of the **AI-Assisted Resume Portfolio Generator**.
+This document tracks how Artificial Intelligence was utilized in the development of the **AI-Assisted Resume Portfolio Generator**.
 
 | Action | Details |
 | :--- | :--- |
-| **🛠 Tool Used** | Google Gemini (via Agentic Coding Assistant) |
-| **🗣 Prompts Given** | 1. "Assist in defining a strict JSON schema for the Google GenAI extraction prompt to prevent data hallucination."<br>2. "Provide logic for an exponential backoff loop to gracefully handle API 503 high-demand errors."<br>3. "Help structure a responsive HTML grid layout for the `template.html` file." |
-| **✨ What Was Generated** | - Baseline boilerplate for the `google-genai` SDK integration.<br>- The skeleton layout of the HTML/CSS template.<br>- The `try/except` loop logic in Python to manage server retries. |
-| **🔧 What Was Corrected** | - Refactored the generated Python script to strictly run locally via the CLI as per the project rubric requirements.<br>- Stripped out unnecessary web server frameworks (FastAPI) to ensure the codebase remains purely focused on local JSON extraction and HTML generation.<br>- Manually customized the CSS to achieve the final premium aesthetic. |
+| **🛠 Tool Used** | Google Gemini (via Antigravity / Agentic Coding Assistant) |
+| **🗣 Prompts Given** | 1. "Build a professional Web App frontend with GSAP and glassmorphism."<br>2. "Implement a FastAPI backend to synthesize the text into JSON securely."<br>3. "Provide a robust JSON parsing logic to protect against Gemini formatting errors." |
+| **✨ What Was Generated** | - The core `FastAPI` endpoint connecting to Gemini (`main.py`).<br>- The modern `index.html`, `style.css`, and `script.js`.<br>- The self-contained Bento Box layout inside `template.html`. |
+| **🔧 What Was Corrected** | - Adjusted `script.js` to ensure GSAP animations trigger perfectly with the new DOM elements.<br>- Refined the Gemini model string to match `google.generativeai` SDK limits (`gemini-flash-latest`).<br>- Patched `main.py` with `PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION` to fix Python 3.14 alpha crashes. |
 
 ---
-*Log finalized in compliance with project brief guidelines.*
+*Log finalized as per the student brief requirements.*

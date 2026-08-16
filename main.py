@@ -9,17 +9,31 @@ try:
     load_dotenv()
 except ImportError:
     pass
+try:
+    from fastapi import FastAPI, HTTPException, Request
+    from fastapi.responses import HTMLResponse, JSONResponse
+    from fastapi.staticfiles import StaticFiles
+    from pydantic import BaseModel
+    
+    app = FastAPI()
+    
+    class ResumeRequest(BaseModel):
+        prompt: str
+        
+except ImportError:
+    # If the user is running this in CLI mode without FastAPI installed, 
+    # we gracefully ignore it since the CLI block at the bottom will handle execution.
+    app = None
+    pass
 
 from google import genai
 
+
+
 def generate_portfolio_html(resume_text: str) -> str:
-    """
-    Synthesizes a raw resume text into structured JSON using Gemini AI,
-    then parses the JSON into a beautiful HTML portfolio template.
-    """
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        raise Exception("API key is not configured in the environment. Please add it to your .env file or terminal session.")
+        raise Exception("API key is not configured on the server.")
         
     client = genai.Client(api_key=api_key)
     
@@ -69,7 +83,6 @@ def generate_portfolio_html(resume_text: str) -> str:
     {resume_text}
     """
     
-    # We use gemini-flash-latest to automatically hook into the newest, fastest Gemini model
     response = client.models.generate_content(
         model='gemini-flash-latest',
         contents=prompt,
@@ -81,12 +94,11 @@ def generate_portfolio_html(resume_text: str) -> str:
     
     template_path = os.path.join(os.path.dirname(__file__), "template.html")
     if not os.path.exists(template_path):
-        raise Exception("template.html file not found. Ensure it is in the same directory.")
+        raise Exception("Template file not found.")
         
-    with open(template_path, "r", encoding="utf-8") as f:
+    with open(template_path, "r") as f:
         html_code = f.read()
         
-    # Inject data into HTML using simple string replacement
     html_code = html_code.replace("{{name}}", resume_data.get("name", "Your Name"))
     html_code = html_code.replace("{{title}}", resume_data.get("title", "Professional Title"))
     html_code = html_code.replace("{{email}}", resume_data.get("email", "Email not provided"))
@@ -152,9 +164,23 @@ def generate_portfolio_html(resume_text: str) -> str:
 
     return html_code
 
+if app:
+    @app.post("/api/generate")
+    async def api_generate(req: ResumeRequest):
+        try:
+            html = generate_portfolio_html(req.prompt)
+            return {"html": html}
+        except Exception as e:
+            return JSONResponse(status_code=500, content={"error": str(e)})
+
+    @app.get("/")
+    async def serve_index():
+        with open(os.path.join(os.path.dirname(__file__), "index.html"), "r") as f:
+            return HTMLResponse(content=f.read())
+
 if __name__ == "__main__":
     import sys
-    print("--- Portfolio Synthesis Script ---")
+    print("--- Local CLI Mode ---")
     resume_path = "resume.txt"
     if not os.path.exists(resume_path):
         print(f"Error: {resume_path} not found. Please create it first.")
@@ -172,7 +198,7 @@ if __name__ == "__main__":
             final_html = generate_portfolio_html(resume_text)
             with open("portfolio.html", "w", encoding="utf-8") as f:
                 f.write(final_html)
-            print("Success! Generated portfolio.html successfully.")
+            print("Success! Generated portfolio.html")
             break
         except Exception as e:
             error_str = str(e)
