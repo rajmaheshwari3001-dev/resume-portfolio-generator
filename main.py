@@ -1,4 +1,5 @@
 import os
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 import json
 import google.generativeai as genai
 from fastapi import FastAPI, HTTPException, Request
@@ -158,3 +159,24 @@ async def api_generate(req: ResumeRequest):
 async def serve_index():
     with open(os.path.join(os.path.dirname(__file__), "index.html"), "r") as f:
         return HTMLResponse(content=f.read())
+
+if __name__ == "__main__":
+    import sys
+    print("--- Local CLI Mode ---")
+    resume_path = "resume.txt"
+    if not os.path.exists(resume_path):
+        print(f"Error: {resume_path} not found. Please create it first.")
+        sys.exit(1)
+        
+    print(f"Reading {resume_path}...")
+    with open(resume_path, "r", encoding="utf-8") as f:
+        resume_text = f.read()
+        
+    print("Synthesizing portfolio with Gemini AI...")
+    try:
+        final_html = generate_portfolio_html(resume_text)
+        with open("portfolio.html", "w", encoding="utf-8") as f:
+            f.write(final_html)
+        print("Success! Generated portfolio.html")
+    except Exception as e:
+        print(f"Failed to generate portfolio: {e}")
