@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - {{name}}</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>{{name}}</h1>
+        <p>{{title}}</p>
+    </header>
+    
+    <main>
+        {{about_section}}
+        {{education_section}}
+        {{experience_section}}
+        {{projects_section}}
+        {{skills_section}}
+        {{achievements_section}}
+    </main>
+
+    <footer>
+        <h2>Contact</h2>
+        <p>Email: {{email}}</p>
+        {{phone_section}}
+        {{links_section}}
+    </footer>
+    <script>
+        // Premium Keyboard & Hover Haptics
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playPremiumClick() {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            // Literal haptics for mobile devices
+            if (navigator.vibrate) {
+                try { navigator.vibrate(10); } catch(e) {}
+            }
+
+            // Audio synthesis for premium 'thock' mechanical keyboard sound
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            const filter = audioCtx.createBiquadFilter();
+
+            osc.type = 'sine';
+            
+            // Pitch envelope
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(60, audioCtx.currentTime + 0.05);
+            
+            // Amplitude envelope
+            gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+            gainNode.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime + 0.005);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+            
+            filter.type = 'lowpass';
+            filter.frequency.value = 800;
+            
+            osc.connect(filter);
+            filter.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        // Play sound on keydown (keyboard typing)
+        document.addEventListener('keydown', (e) => {
+            if (e.repeat) return; // Prevent spam from holding a key
+            playPremiumClick();
+        });
+
+        // Also play sound when clicking interactable elements for better UX
+        document.addEventListener('mousedown', (e) => {
+            if (e.target.closest('a') || e.target.closest('li')) {
+                playPremiumClick();
+            }
+        });
+    </script>
+</body>
+</html>

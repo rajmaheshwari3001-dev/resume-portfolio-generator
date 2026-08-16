@@ -1,0 +1,19 @@
+# Sample Resume
+
+John Doe
+Software Engineer
+Email: john.doe@example.com
+Phone: (123) 456-7890
+
+Summary:
+Passionate software engineer with experience in Python and web development.
+
+Experience:
+- Software Developer at TechCorp (2020 - Present)
+  Developed web applications using Python and React.
+
+Education:
+- B.S. in Computer Science, State University (2016 - 2020)
+
+Skills:
+Python, HTML, CSS, JavaScript, Git
