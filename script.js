@@ -79,7 +79,10 @@ function handleFileSelect() {
 resumeInput.addEventListener('input', validateInput);
 
 function validateInput() {
-    if (resumeInput.value.trim().length > 50) {
+    const text = resumeInput.value.trim();
+    const wordCount = text ? text.split(/\s+/).length : 0;
+    
+    if (wordCount >= 40) {
         generateBtn.disabled = false;
         statusBadgeText.textContent = " Ready to Generate";
         pulseDot.classList.add('active');
@@ -90,7 +93,7 @@ function validateInput() {
         });
     } else {
         generateBtn.disabled = true;
-        statusBadgeText.textContent = " Awaiting Input";
+        statusBadgeText.textContent = ` ${wordCount}/40 Words Required`;
         pulseDot.classList.remove('active');
     }
 }
@@ -98,7 +101,12 @@ function validateInput() {
 // Generate Portfolio
 generateBtn.addEventListener('click', async () => {
     const prompt = resumeInput.value.trim();
-    if (!prompt) return;
+    const wordCount = prompt ? prompt.split(/\s+/).length : 0;
+    
+    if (wordCount < 40) {
+        showError("Minimum 40 words required.");
+        return;
+    }
 
     // UI Loading State
     generateBtn.disabled = true;

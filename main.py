@@ -13,6 +13,10 @@ except ImportError:
 from google import genai
 
 def generate_portfolio_html(resume_text: str) -> str:
+    word_count = len(resume_text.split())
+    if word_count < 40:
+        raise Exception(f"Resume text is too short ({word_count} words). Minimum 40 words required for a professional portfolio.")
+
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise Exception("API key is not configured on the server.")
