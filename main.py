@@ -1,27 +1,32 @@
 import os
-os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 import json
-import google.generativeai as genai
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+try:
+    from fastapi import FastAPI, HTTPException, Request
+    from fastapi.responses import HTMLResponse, JSONResponse
+    from fastapi.staticfiles import StaticFiles
+    from pydantic import BaseModel
+    
+    app = FastAPI()
+    
+    class ResumeRequest(BaseModel):
+        prompt: str
+        
+except ImportError:
+    # If the user is running this in CLI mode without FastAPI installed, 
+    # we gracefully ignore it since the CLI block at the bottom will handle execution.
+    app = None
+    pass
 
-app = FastAPI()
+from google import genai
 
-# Mount static files (css, js, images) from the current directory
-# Since we will serve index.html directly from a route, we mount the rest under /static if needed, 
-# or just serve them manually to avoid conflicts with Vercel's static handling.
 
-class ResumeRequest(BaseModel):
-    prompt: str
 
 def generate_portfolio_html(resume_text: str) -> str:
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise Exception("API key is not configured on the server.")
         
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key)
     
     prompt = f"""
     You are a strict data extraction assistant.
@@ -69,8 +74,11 @@ def generate_portfolio_html(resume_text: str) -> str:
     {resume_text}
     """
     
-    model = genai.GenerativeModel('gemini-flash-latest')
-    response = model.generate_content(prompt, generation_config={"temperature": 0.4})
+    response = client.models.generate_content(
+        model='gemini-2.5-flash',
+        contents=prompt,
+        config=genai.types.GenerateContentConfig(temperature=0.4)
+    )
     ai_response_text = response.text.replace('```json', '').replace('```', '').strip()
     
     resume_data = json.loads(ai_response_text)
@@ -147,18 +155,19 @@ def generate_portfolio_html(resume_text: str) -> str:
 
     return html_code
 
-@app.post("/api/generate")
-async def api_generate(req: ResumeRequest):
-    try:
-        html = generate_portfolio_html(req.prompt)
-        return {"html": html}
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)})
+if app:
+    @app.post("/api/generate")
+    async def api_generate(req: ResumeRequest):
+        try:
+            html = generate_portfolio_html(req.prompt)
+            return {"html": html}
+        except Exception as e:
+            return JSONResponse(status_code=500, content={"error": str(e)})
 
-@app.get("/")
-async def serve_index():
-    with open(os.path.join(os.path.dirname(__file__), "index.html"), "r") as f:
-        return HTMLResponse(content=f.read())
+    @app.get("/")
+    async def serve_index():
+        with open(os.path.join(os.path.dirname(__file__), "index.html"), "r") as f:
+            return HTMLResponse(content=f.read())
 
 if __name__ == "__main__":
     import sys
