@@ -1,5 +1,9 @@
 import os
 import json
+import warnings
+import logging
+warnings.filterwarnings("ignore")
+logging.getLogger().setLevel(logging.ERROR)
 try:
     from dotenv import load_dotenv
     load_dotenv()
@@ -187,10 +191,20 @@ if __name__ == "__main__":
         resume_text = f.read()
         
     print("Synthesizing portfolio with Gemini AI...")
-    try:
-        final_html = generate_portfolio_html(resume_text)
-        with open("portfolio.html", "w", encoding="utf-8") as f:
-            f.write(final_html)
-        print("Success! Generated portfolio.html")
-    except Exception as e:
-        print(f"Failed to generate portfolio: {e}")
+    import time
+    max_retries = 5
+    for attempt in range(max_retries):
+        try:
+            final_html = generate_portfolio_html(resume_text)
+            with open("portfolio.html", "w", encoding="utf-8") as f:
+                f.write(final_html)
+            print("Success! Generated portfolio.html")
+            break
+        except Exception as e:
+            error_str = str(e)
+            if "503" in error_str and attempt < max_retries - 1:
+                print(f"Model is experiencing high demand (503). Retrying in 5 seconds... (Attempt {attempt + 1}/{max_retries})")
+                time.sleep(5)
+            else:
+                print(f"Failed to generate portfolio: {e}")
+                break
