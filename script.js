@@ -1,0 +1,210 @@
+// --- Premium Cursor Logic ---
+const cursorDot = document.getElementById('cursor-dot');
+const cursorOutline = document.getElementById('cursor-outline');
+
+window.addEventListener('mousemove', (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
+
+    // Smooth follow for outline
+    cursorOutline.animate({
+        left: `${posX}px`,
+        top: `${posY}px`
+    }, { duration: 500, fill: "forwards" });
+});
+
+// Magnetic Hover Effects
+const magnetics = document.querySelectorAll('.magnetic');
+magnetics.forEach(magnetic => {
+    magnetic.addEventListener('mousemove', (e) => {
+        const position = magnetic.getBoundingClientRect();
+        const x = e.pageX - position.left - position.width / 2;
+        const y = e.pageY - position.top - position.height / 2;
+        
+        magnetic.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+        cursorOutline.style.transform = `translate(-50%, -50%) scale(1.5)`;
+        cursorOutline.style.backgroundColor = 'rgba(242, 226, 179, 0.1)';
+    });
+
+    magnetic.addEventListener('mouseleave', () => {
+        magnetic.style.transform = 'translate(0px, 0px)';
+        cursorOutline.style.transform = `translate(-50%, -50%) scale(1)`;
+        cursorOutline.style.backgroundColor = 'transparent';
+    });
+});
+
+// --- Initial GSAP Animations ---
+gsap.from(".premium-nav", { y: -50, opacity: 0, duration: 1, ease: "power3.out" });
+gsap.from(".console-panel", { x: -50, opacity: 0, duration: 1, delay: 0.2, ease: "power3.out" });
+gsap.from(".canvas-panel", { x: 50, opacity: 0, duration: 1, delay: 0.4, ease: "power3.out" });
+
+// --- App Logic ---
+const fileInput = document.getElementById('file-input');
+const browseBtn = document.getElementById('browse-btn');
+const dropZone = document.getElementById('drop-zone');
+const resumeInput = document.getElementById('resume-input');
+const generateBtn = document.getElementById('generate-btn');
+const btnText = document.querySelector('.btn-text');
+const loader = document.querySelector('.loader');
+const errorMsg = document.getElementById('error-message');
+const emptyState = document.querySelector('.stage-empty-state');
+const iframe = document.getElementById('portfolio-frame');
+const downloadBtn = document.getElementById('download-btn');
+const statusBadgeText = document.querySelector('.status-indicator').lastChild;
+const pulseDot = document.querySelector('.pulse-dot');
+
+let generatedHtml = '';
+
+// File Upload Handling
+browseBtn.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', handleFileSelect);
+
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('drag-over');
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        handleFileSelect();
+    }
+});
+
+function handleFileSelect() {
+    const file = fileInput.files[0];
+    if (!file) return;
+    
+    if (file.name.endsWith('.txt')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            resumeInput.value = e.target.result;
+            validateInput();
+        };
+        reader.readAsText(file);
+    } else {
+        showError("Please provide a .txt file.");
+    }
+}
+
+// Input Validation
+resumeInput.addEventListener('input', validateInput);
+
+function validateInput() {
+    if (resumeInput.value.trim().length > 50) {
+        generateBtn.disabled = false;
+        statusBadgeText.textContent = " Ready for Synthesis";
+        pulseDot.classList.add('active');
+        
+        // GSAP pulse
+        gsap.to(generateBtn, {
+            scale: 1.02, duration: 0.3, yoyo: true, repeat: 1
+        });
+    } else {
+        generateBtn.disabled = true;
+        statusBadgeText.textContent = " Awaiting Input";
+        pulseDot.classList.remove('active');
+    }
+}
+
+// Generate Portfolio
+generateBtn.addEventListener('click', async () => {
+    const prompt = resumeInput.value.trim();
+    if (!prompt) return;
+
+    // UI Loading State
+    generateBtn.disabled = true;
+    btnText.hidden = true;
+    loader.hidden = false;
+    errorMsg.hidden = true;
+    emptyState.hidden = false;
+    
+    emptyState.querySelector('h3').textContent = "Synthesizing...";
+    emptyState.querySelector('p').textContent = "Processing neural nodes.";
+    iframe.hidden = true;
+    downloadBtn.hidden = true;
+    pulseDot.style.animationDuration = "0.5s";
+
+    try {
+        const response = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Synthesis failed.");
+        }
+
+        generatedHtml = data.html;
+
+        // Success Animation
+        gsap.to(emptyState, { opacity: 0, duration: 0.5, onComplete: () => {
+            emptyState.hidden = true;
+            iframe.hidden = false;
+            downloadBtn.hidden = false;
+            
+            // Write HTML
+            const iframeDoc = iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(generatedHtml);
+            iframeDoc.close();
+            
+            gsap.from(iframe, { opacity: 0, y: 20, duration: 1 });
+            gsap.from(downloadBtn, { opacity: 0, scale: 0.8, duration: 0.5 });
+        }});
+
+    } catch (error) {
+        showError(error.message);
+        emptyState.hidden = false;
+        emptyState.querySelector('h3').textContent = "Synthesis Error";
+        emptyState.querySelector('p').textContent = "Please verify your input.";
+        iframe.hidden = true;
+    } finally {
+        generateBtn.disabled = false;
+        btnText.hidden = false;
+        loader.hidden = true;
+        pulseDot.style.animationDuration = "2s";
+    }
+});
+
+// Download Logic
+downloadBtn.addEventListener('click', () => {
+    if (!generatedHtml) return;
+    
+    // Magnetic click effect
+    gsap.to(downloadBtn, { scale: 0.9, duration: 0.1, yoyo: true, repeat: 1 });
+
+    const blob = new Blob([generatedHtml], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'portfolio.html';
+    document.body.appendChild(a);
+    a.click();
+    
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
+
+function showError(msg) {
+    errorMsg.textContent = msg;
+    errorMsg.hidden = false;
+    gsap.from(errorMsg, { opacity: 0, y: 10, duration: 0.3 });
+    setTimeout(() => {
+        gsap.to(errorMsg, { opacity: 0, duration: 0.3, onComplete: () => errorMsg.hidden = true });
+    }, 5000);
+}

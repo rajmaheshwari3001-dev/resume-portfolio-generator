@@ -1,34 +1,52 @@
-# AI-Assisted Resume Portfolio Generator
+<div align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi" />
+  <img src="https://img.shields.io/badge/Gemini_AI-4285F4?style=for-the-badge&logo=google&logoColor=white" />
+  <img src="https://img.shields.io/badge/GSAP-88CE02?style=for-the-badge&logo=greensock&logoColor=white" />
+  
+  <br />
+  
+  <h1>✨ AI Portfolio Architect</h1>
+  <p><b>Transform raw text into an award-winning, stunning portfolio in seconds.</b></p>
+</div>
 
-A Python-based tool that takes a simple `resume.txt` file, uses the Gemini API to intelligently extract and structure the information, and generates a beautiful, responsive HTML portfolio.
+---
 
-## Setup & Run Instructions
+## 🌟 The Vision
+The **AI Portfolio Architect** goes far beyond standard resume parsers. Built with a luxurious, custom-cursor, magnetic-hover frontend and powered by a robust Python/FastAPI backend, it uses the **Google Gemini API** to synthesize unstructured text into a fully formatted, portable HTML masterpiece.
+
+## 🚀 Key Features
+- **Insane UI/UX**: Custom haptics, GSAP animations, magnetic buttons, and glassmorphism panels.
+- **AI-Powered Synthesis**: Gemini accurately extracts Education, Experience, Skills, and Projects without hallucination.
+- **Portable Export**: Instantly download a 100% self-contained `portfolio.html` with beautiful embedded styling.
+- **Zero-Config Deployment**: Built specifically to deploy perfectly on Vercel as a serverless Python function.
+
+## 🛠 Setup & Run Instructions
+
+### Local Environment
 1. Clone this repository.
-2. Install the required dependencies: `pip install -r requirements.txt`
-3. Copy `.env.example` to `.env` and add your Gemini API key (do not share this key).
-4. Place your resume text in `resume.txt`.
-5. Run the script: `python main.py`
-6. Open `portfolio.html` in your browser.
+2. Install dependencies: 
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Copy `.env.example` to `.env` and paste your Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_key_here
+   ```
+4. Start the synthesis engine:
+   ```bash
+   uvicorn main:app --reload
+   ```
+5. Open `http://localhost:8000` in your browser.
 
-## Workflow
-1. The script reads your resume text from `resume.txt`.
-2. It cleans the text and sends it to the Gemini API using a strict prompt.
-3. Gemini returns structured JSON data containing your resume sections.
-4. Python parses this JSON and injects the values into a predefined HTML template.
-5. The final output is saved as `portfolio.html`.
+## 🧠 Prompt Architecture
+Our prompt rigorously enforces a strict JSON format. It aggressively commands Gemini to **never invent data** (hallucinate). Missing fields are intelligently handled and safely suppressed in the final HTML.
 
-## Prompt Design
-The prompt is specifically designed to enforce a strict JSON format. It clearly instructs Gemini not to invent any information (skills, projects, companies, dates) and to use empty values if the information is missing from the provided resume text.
+## ⚠️ Limitations
+* **Hallucination Risk:** Although strongly suppressed, generative AI can sometimes hallucinate. Always review the downloaded portfolio.
+* **Layout:** The current template layout is fixed, dynamically hiding sections that lack data.
 
-## Limitations & Hallucination Risks
-* **Hallucinations:** AI models like Gemini can sometimes "hallucinate" or invent details that are not present in the source text. Although the prompt strictly forbids this, you must ALWAYS verify the generated `portfolio.html` against your original resume.
-* **Format Errors:** If Gemini returns invalid JSON, the script will catch the error and stop safely. 
-* **Static Template:** The current HTML layout is static and assumes you want to display all provided fields. Missing fields are gracefully hidden.
-
-## Testing Results
-* **Missing `resume.txt`:** The script shows a clear error message and stops safely.
-* **Empty Resume:** The script rejects the input with a useful message if it is too short.
-* **Valid Resume:** The script successfully generates a `portfolio.html` file.
-* **Missing Sections:** The script successfully generates only available sections and uses empty strings without crashing.
-* **Missing API Key:** Configuration error is shown if the API key is not configured.
-* **API / JSON Failure:** Exception handling prevents the program from crashing and logs the issue gracefully.
+---
+<div align="center">
+<i>Built with precision for the modern developer.</i>
+</div>

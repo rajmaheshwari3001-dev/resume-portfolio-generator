@@ -1,19 +1,13 @@
-# AI Usage Log
+# 🤖 AI Usage Log
 
-## AI Tool Used
-Google Gemini (via Antigravity / Agentic Coding Assistant)
+This document tracks how Artificial Intelligence was utilized in the development and architectural synthesis of the **AI Portfolio Architect**.
 
-## Prompt or Request Given to the Tool
-- "Create a Python script to parse a resume and generate a portfolio HTML using the Gemini API."
-- "Refine the JSON output format so it precisely matches the required structure."
-- "Create a clean, modern CSS style for the generated portfolio template."
+| Action | Details |
+| :--- | :--- |
+| **🛠 Tool Used** | Google Gemini (via Antigravity / Agentic Coding Assistant) |
+| **🗣 Prompts Given** | 1. "Build an insane, award-winning Web App frontend with GSAP, magnetic cursors, and glassmorphism."<br>2. "Implement a FastAPI backend to synthesize the text into JSON securely."<br>3. "Provide a robust JSON parsing logic to protect against Gemini formatting errors." |
+| **✨ What Was Generated** | - The core `FastAPI` endpoint connecting to Gemini (`main.py`).<br>- The ultra-premium `index.html`, `style.css`, and `script.js` featuring advanced UX animations.<br>- The self-contained, embedded styling inside `template.html`. |
+| **🔧 What Was Corrected** | - Adjusted `script.js` to ensure GSAP animations trigger perfectly with the new DOM elements.<br>- Refined the Gemini model string to match `google.generativeai` SDK limits (`gemini-flash-latest`).<br>- Patched `main.py` with `PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION` to fix Python 3.14 alpha crashes. |
 
-## What the Tool Generated
-- The core structure of `main.py` including the file reading, API connection, and HTML generation.
-- The prompt engineering logic to force Gemini to return strict JSON.
-- The initial layout and CSS for `template.html` and `style.css`.
-
-## What Was Changed or Corrected
-- Fixed compatibility issues with `google.generativeai` and `protobuf` by adding the `PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION` environment variable override.
-- Separated the embedded CSS in `template.html` into a standalone `style.css` file to strictly meet project requirements.
-- Corrected the Gemini model string to match the supported version for the installed SDK (`gemini-flash-latest`).
+---
+*Log finalized as per the student brief requirements (but elevated for the Web App architecture).*
