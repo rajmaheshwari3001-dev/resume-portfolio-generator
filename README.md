@@ -67,11 +67,8 @@ Our prompt rigorously enforces a strict JSON format. It aggressively commands Ge
 - **Missing Resume Sections**: Successfully skips creating HTML wrappers for empty fields, preventing UI bugs.
 
 ## 📸 Screenshots
-*(Insert your screenshot of the running Python program here)*
-![Python Program Execution](#)
-
-*(Insert your screenshot of the generated portfolio here)*
-![Generated Portfolio](#)
+*(Screenshot of the generated Cyberpunk portfolio)*
+![Generated Portfolio](assets/preview.png)
 
 ## ⚠️ Limitations
 * **Hallucination Risk:** Although strongly suppressed, generative AI can sometimes hallucinate. Always review the downloaded portfolio.
