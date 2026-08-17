@@ -1,5 +1,6 @@
 import os
 import json
+import requests
 import warnings
 import logging
 warnings.filterwarnings("ignore")
@@ -10,21 +11,18 @@ try:
 except ImportError:
     pass
 
-from google import genai
+html_code_cache = None
 
-def generate_portfolio_html(resume_text: str) -> str:
+def generate_portfolio_html(resume_text: str, template: str = "standard", theme_color: str = "#6366F1") -> str:
     # Remove unnecessary spaces and blank lines (Rubric requirement)
     cleaned_resume_text = "\n".join([line.strip() for line in resume_text.split('\n') if line.strip()])
     
-    word_count = len(cleaned_resume_text.split())
-    if word_count < 40:
-        raise Exception(f"Resume text is too short ({word_count} words). Minimum 40 words required for a professional portfolio.")
+    if not cleaned_resume_text:
+        raise Exception("Resume text cannot be empty.")
 
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise Exception("API key is not configured on the server.")
-        
-    client = genai.Client(api_key=api_key)
     
     prompt = f"""
     You are a strict data extraction assistant.
@@ -72,29 +70,56 @@ def generate_portfolio_html(resume_text: str) -> str:
     {cleaned_resume_text}
     """
     
-    response = client.models.generate_content(
-        model='gemini-flash-latest',
-        contents=prompt,
-        config=genai.types.GenerateContentConfig(temperature=0.4)
-    )
-    ai_response_text = response.text.replace('```json', '').replace('```', '').strip()
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
+    
+    payload = {
+        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.4,
+            "responseMimeType": "application/json"
+        }
+    }
+    
+    response = requests.post(url, json=payload, headers={'Content-Type': 'application/json'})
+    if response.status_code != 200:
+        raise Exception(f"Gemini API Error: {response.text}")
+        
+    data = response.json()
+    ai_response_text = data["candidates"][0]["content"]["parts"][0]["text"].replace('```json', '').replace('```', '').strip()
     
     resume_data = json.loads(ai_response_text)
     
-    # We must find template.html relative to this file, or the CWD
-    template_path = os.path.join(os.path.dirname(__file__), "template.html")
-    if not os.path.exists(template_path):
-        # Fallback to CWD if running from a different context
-        template_path = "template.html"
+    global html_code_cache
+    if html_code_cache is None:
+        template_path = os.path.join(os.path.dirname(__file__), "template.html")
         if not os.path.exists(template_path):
-            raise Exception("template.html file not found.")
+            template_path = "template.html"
+            if not os.path.exists(template_path):
+                raise Exception("template.html file not found.")
+        with open(template_path, "r", encoding="utf-8") as f:
+            html_code_cache = f.read()
+    
+    html_code = html_code_cache
+
+    # Inject Theme and Template Class
+    theme_style = f"<style>:root {{ --accent-color: {theme_color} !important; }}</style>"
+    html_code = html_code.replace("</head>", f"    {theme_style}\n</head>")
+    html_code = html_code.replace("<body>", f"<body class='template-{template}'>")
         
-    with open(template_path, "r", encoding="utf-8") as f:
-        html_code = f.read()
-        
-    html_code = html_code.replace("{{name}}", resume_data.get("name", "Your Name"))
-    html_code = html_code.replace("{{title}}", resume_data.get("title", "Professional Title"))
-    html_code = html_code.replace("{{email}}", resume_data.get("email", "Email not provided"))
+    name = resume_data.get("name")
+    if not name or name.strip() == "":
+        name = "Your Name"
+    html_code = html_code.replace("{{name}}", name)
+    
+    title = resume_data.get("title")
+    if not title or title.strip() == "":
+        title = "Professional Title"
+    html_code = html_code.replace("{{title}}", title)
+    
+    email = resume_data.get("email")
+    if not email or email.strip() == "":
+        email = "Email not provided"
+    html_code = html_code.replace("{{email}}", email)
     
     summary = resume_data.get("summary", "")
     about_html = f'<p>{summary}</p>' if summary else ""

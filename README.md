@@ -16,10 +16,13 @@
 The **AI-Assisted Resume Portfolio Generator** uses the **Google Gemini API** to synthesize unstructured resume text into a fully formatted, portable HTML portfolio. Built with a clean Python/FastAPI backend and a modern web interface.
 
 ## 🚀 Key Features
-- **Clean UI/UX**: Straightforward, professional interface for rapid portfolio generation.
-- **AI-Powered Extraction**: Gemini accurately extracts Education, Experience, Skills, and Projects from plain text.
+- **Brighter Vibes UI**: A stunning, state-of-the-art light theme featuring staggered fade-in animations, glassmorphism panels, and premium typography (`Plus Jakarta Sans` & `Space Grotesk`).
+- **Premium Theme Selection**: Choose from 5 distinct aesthetic themes (Standard, Minimal, Glassmorphism, Cyberpunk, Neobrutalism) via interactive Theme Cards.
+- **AI-Powered Extraction**: Gemini accurately extracts Education, Experience, Skills, and Projects from plain text, safely defaulting missing information like your Name.
+- **Interactive Portfolio Chatbot**: The generated web app includes a floating AI Copilot that dynamically answers questions about your specific portfolio data.
 - **Portable Export**: Instantly download a 100% self-contained `portfolio.html` with a beautiful Bento Box layout and embedded CSS.
 - **Zero-Config Deployment**: Built to deploy seamlessly on serverless platforms like Vercel.
+- **Relaxed Constraints**: Automatically processes your resume without arbitrary word limits, allowing for ultimate flexibility.
 
 ## 🛠 Setup & Run Instructions
 

@@ -1,21 +1,26 @@
 Rajesh Kumar
-Full Stack Web Developer
-Email: rajesh.kumar@email.in
-Phone: +91 98765 43210
-Location: Bengaluru, Karnataka
+Phone: 1234567890
+Email: rajesh@example.com
+LinkedIn: https://linkedin.com/in/rajeshkumar
+GitHub: https://github.com/rajeshkumar
 
 Summary:
-Motivated Full Stack Developer with a passion for building scalable web applications. Experienced in Python, React, and modern UI design.
+Highly motivated and experienced AI Software Engineer with a passion for building robust web applications and integrating advanced machine learning models. Adept at full-stack development, continuous integration, and deploying scalable applications to modern cloud infrastructures.
 
 Experience:
-- Web Developer Intern at TechSolutions India (2023 - Present)
-  Built responsive landing pages and integrated REST APIs using FastAPI and React.
+Senior AI Engineer at Tech Innovations Inc. (Jan 2023 - Present)
+- Developed and deployed generative AI chatbots using Google Gemini API.
+- Improved model latency by 40% through efficient prompt engineering and strict JSON validation.
+- Spearheaded the transition to serverless architectures using Vercel.
 
 Education:
-- B.Tech in Computer Science, Visvesvaraya Technological University (2020 - 2024)
+B.S. in Computer Science
+University of Technology (2018 - 2022)
 
 Skills:
-Python, JavaScript, HTML/CSS, React, FastAPI, GSAP
+Python, JavaScript, React, FastAPI, Machine Learning, Google Gemini API, Prompt Engineering, HTML/CSS, Git, Vercel
 
 Projects:
-- Portfolio Generator Web App: A premium web app built with Python and GSAP.
+AI Resume to Portfolio Generator
+- Created an intelligent system that transforms plain text resumes into stunning, responsive web portfolios using Python and Gemini AI.
+- Implemented a Cyber-Minimalist UI with advanced CSS animations.

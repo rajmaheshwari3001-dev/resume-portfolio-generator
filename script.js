@@ -33,8 +33,30 @@ const iframe = document.getElementById('portfolio-frame');
 const downloadBtn = document.getElementById('download-btn');
 const statusBadgeText = document.querySelector('.status-indicator').lastChild;
 const pulseDot = document.querySelector('.dot');
+const themeCards = document.querySelectorAll('.theme-card');
+const swatches = document.querySelectorAll('.swatch');
 
+let selectedThemeColor = '#6366F1'; // Default Indigo
+let selectedTheme = 'standard'; // Default Theme
 let generatedHtml = '';
+
+// Theme Card Selection
+themeCards.forEach(card => {
+    card.addEventListener('click', () => {
+        themeCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        selectedTheme = card.getAttribute('data-theme');
+    });
+});
+
+// Theme Color Selection
+swatches.forEach(swatch => {
+    swatch.addEventListener('click', () => {
+        swatches.forEach(s => s.classList.remove('active'));
+        swatch.classList.add('active');
+        selectedThemeColor = swatch.getAttribute('data-color');
+    });
+});
 
 // File Upload Handling
 browseBtn.addEventListener('click', () => fileInput.click());
@@ -80,9 +102,8 @@ resumeInput.addEventListener('input', validateInput);
 
 function validateInput() {
     const text = resumeInput.value.trim();
-    const wordCount = text ? text.split(/\s+/).length : 0;
     
-    if (wordCount >= 40) {
+    if (text.length > 0) {
         generateBtn.disabled = false;
         statusBadgeText.textContent = " Ready to Generate";
         pulseDot.classList.add('active');
@@ -93,7 +114,7 @@ function validateInput() {
         });
     } else {
         generateBtn.disabled = true;
-        statusBadgeText.textContent = ` ${wordCount}/40 Words Required`;
+        statusBadgeText.textContent = ` Awaiting Input`;
         pulseDot.classList.remove('active');
     }
 }
@@ -101,10 +122,9 @@ function validateInput() {
 // Generate Portfolio
 generateBtn.addEventListener('click', async () => {
     const prompt = resumeInput.value.trim();
-    const wordCount = prompt ? prompt.split(/\s+/).length : 0;
     
-    if (wordCount < 40) {
-        showError("Minimum 40 words required.");
+    if (!prompt) {
+        showError("Please provide some resume text.");
         return;
     }
 
@@ -121,11 +141,17 @@ generateBtn.addEventListener('click', async () => {
     downloadBtn.hidden = true;
     pulseDot.style.animationDuration = "0.5s";
 
+    const templateStyle = selectedTheme;
+
     try {
         const response = await fetch('/api/generate', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt })
+            body: JSON.stringify({ 
+                prompt,
+                template: templateStyle,
+                theme_color: selectedThemeColor
+            })
         });
 
         const data = await response.json();
@@ -137,7 +163,7 @@ generateBtn.addEventListener('click', async () => {
         generatedHtml = data.html;
 
         // Success Animation
-        gsap.to(emptyState, { opacity: 0, duration: 0.5, onComplete: () => {
+        gsap.to(emptyState, { opacity: 0, duration: 0.2, onComplete: () => {
             emptyState.hidden = true;
             iframe.hidden = false;
             downloadBtn.hidden = false;
@@ -148,8 +174,8 @@ generateBtn.addEventListener('click', async () => {
             iframeDoc.write(generatedHtml);
             iframeDoc.close();
             
-            gsap.from(iframe, { opacity: 0, y: 20, duration: 1 });
-            gsap.from(downloadBtn, { opacity: 0, scale: 0.8, duration: 0.5 });
+            gsap.from(iframe, { opacity: 0, y: 10, duration: 0.4 });
+            gsap.from(downloadBtn, { opacity: 0, scale: 0.9, duration: 0.3 });
         }});
 
     } catch (error) {

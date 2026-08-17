@@ -7,12 +7,10 @@
     <meta name="description"
         content="AI-Assisted Resume Portfolio Generator. Instantly transform your unstructured resume text into a stunning, responsive, and modern personal portfolio using AI.">
     <title>PORTFOLIO.AI - Create Your Premium Portfolio</title>
-    <!-- Modern Typography: Inter and Outfit -->
+    <!-- Modern Typography: Plus Jakarta Sans and Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;700;800&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
@@ -65,6 +63,60 @@
                     </span>
                 </div>
                 <textarea id="resume-input" placeholder="Alternatively, paste your raw resume text here..."></textarea>
+            </div>
+
+            <!-- Customization Options -->
+            <div class="options-box">
+                <div class="option-group" style="grid-column: span 2;">
+                    <label class="option-label"><i data-lucide="layout-template" class="sm-icon"></i> Select Theme</label>
+                    <div class="theme-showcase" id="theme-select">
+                        <div class="theme-card active" data-theme="standard">
+                            <div class="theme-preview bg-standard"></div>
+                            <div class="theme-info">
+                                <h4>Standard</h4>
+                                <p>Professional</p>
+                            </div>
+                        </div>
+                        <div class="theme-card" data-theme="minimal">
+                            <div class="theme-preview bg-minimal"></div>
+                            <div class="theme-info">
+                                <h4>Minimal</h4>
+                                <p>Clean lines</p>
+                            </div>
+                        </div>
+                        <div class="theme-card" data-theme="glassmorphism">
+                            <div class="theme-preview bg-glassmorphism"></div>
+                            <div class="theme-info">
+                                <h4>Glass</h4>
+                                <p>Modern blur</p>
+                            </div>
+                        </div>
+                        <div class="theme-card" data-theme="cyberpunk">
+                            <div class="theme-preview bg-cyberpunk"></div>
+                            <div class="theme-info">
+                                <h4>Cyberpunk</h4>
+                                <p>Neon dark</p>
+                            </div>
+                        </div>
+                        <div class="theme-card" data-theme="neobrutalism">
+                            <div class="theme-preview bg-neobrutalism"></div>
+                            <div class="theme-info">
+                                <h4>Neobrutal</h4>
+                                <p>Bold & raw</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="option-group">
+                    <label class="option-label"><i data-lucide="palette" class="sm-icon"></i> Theme Color</label>
+                    <div class="color-swatches" id="color-picker">
+                        <div class="swatch active" data-color="#6366F1" style="background: #6366F1;" title="Indigo"></div>
+                        <div class="swatch" data-color="#10B981" style="background: #10B981;" title="Emerald"></div>
+                        <div class="swatch" data-color="#F43F5E" style="background: #F43F5E;" title="Rose"></div>
+                        <div class="swatch" data-color="#F59E0B" style="background: #F59E0B;" title="Amber"></div>
+                    </div>
+                </div>
             </div>
 
             <button id="generate-btn" class="primary-btn" disabled>

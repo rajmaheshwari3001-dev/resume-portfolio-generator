@@ -1,7 +1,11 @@
 import os
+import sys
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
+
+# Fix module import for Vercel
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import the generation logic from our CLI script
 from main import generate_portfolio_html
@@ -10,11 +14,13 @@ app = FastAPI()
 
 class ResumeRequest(BaseModel):
     prompt: str
+    template: str = "standard"
+    theme_color: str = "#6366F1"
 
 @app.post("/api/generate")
 async def api_generate(req: ResumeRequest):
     try:
-        html = generate_portfolio_html(req.prompt)
+        html = generate_portfolio_html(req.prompt, req.template, req.theme_color)
         return {"html": html}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})

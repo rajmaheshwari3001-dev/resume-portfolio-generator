@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional Portfolio of {{name}} - {{title}}. Discover my experience, projects, and skills.">
-    <meta name="keywords" content="{{name}}, Portfolio, {{title}}, Resume, Projects, Skills">
-    <meta name="author" content="{{name}}">
-    <title>Portfolio | {{name}}</title>
+    <meta name="description" content="Professional Portfolio of Rajesh Kumar - AI Software Engineer. Discover my experience, projects, and skills.">
+    <meta name="keywords" content="Rajesh Kumar, Portfolio, AI Software Engineer, Resume, Projects, Skills">
+    <meta name="author" content="Rajesh Kumar">
+    <title>Portfolio | Rajesh Kumar</title>
     <!-- Modern Typography: Plus Jakarta Sans (body) and Space Grotesk (headings) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -394,16 +394,17 @@
             box-shadow: 3px 3px 0px #111;
         }
     </style>
+    <style>:root { --accent-color: #6366F1 !important; }</style>
 </head>
-<body>
+<body class='template-standard'>
 
     <main class="bento-grid" aria-label="Portfolio Grid">
         
         <!-- Hero Section -->
         <header class="bento-card card-hero" aria-label="Hero Section">
-            <h1>{{name}}</h1>
-            <h2>{{title}}</h2>
-            {{about_section}}
+            <h1>Rajesh Kumar</h1>
+            <h2>AI Software Engineer</h2>
+            <p>Highly motivated and experienced AI Software Engineer with a passion for building robust web applications and integrating advanced machine learning models. Adept at full-stack development, continuous integration, and deploying scalable applications to modern cloud infrastructures.</p>
         </header>
 
         <!-- Contact Section -->
@@ -412,17 +413,17 @@
             <div class="contact-links">
                 <div class="contact-item">
                     <span>Email</span>
-                    <a href="mailto:{{email}}">{{email}}</a>
+                    <a href="mailto:rajesh@example.com">rajesh@example.com</a>
                 </div>
-                {{phone_section}}
-                {{links_section}}
+                <div class="contact-item"><span>Phone</span><a href="tel:1234567890">1234567890</a></div>
+                <p>Links: <a href='https://linkedin.com/in/rajeshkumar'>LinkedIn</a> <a href='https://github.com/rajeshkumar'>GitHub</a></p>
             </div>
         </section>
 
-        {{experience_section}}
-        {{education_achievements_section}}
-        {{skills_section}}
-        {{projects_section}}
+        <section class="bento-card card-experience" aria-label="Work Experience"><div class="card-header">Experience</div><div class="job"><h3>Senior AI Engineer at Tech Innovations Inc.</h3><p class="duration">Jan 2023 - Present</p><p>Developed and deployed generative AI chatbots using Google Gemini API. Improved model latency by 40% through efficient prompt engineering and strict JSON validation. Spearheaded the transition to serverless architectures using Vercel.</p></div></section>
+        <section class="bento-card card-education" aria-label="Education and Achievements"><div class="card-header">Education</div><div class="education"><h3>B.S. in Computer Science</h3><p><strong>University of Technology</strong> 2018 - 2022</p></div></section>
+        <section class="bento-card card-skills" aria-label="Skills"><div class="card-header">Core Competencies</div><ul><li>Python</li><li>JavaScript</li><li>React</li><li>FastAPI</li><li>Machine Learning</li><li>Google Gemini API</li><li>Prompt Engineering</li><li>HTML/CSS</li><li>Git</li><li>Vercel</li></ul></section>
+        <section class="card-projects" aria-label="Projects"><div class="project"><h3>AI Resume to Portfolio Generator</h3><p>Created an intelligent system that transforms plain text resumes into stunning, responsive web portfolios using Python and Gemini AI. Implemented a Cyber-Minimalist UI with advanced CSS animations.</p><p style="margin-top:0.5rem"><strong>Technologies:</strong> Python, Gemini AI, CSS</p></div></section>
 
     </main>
 
