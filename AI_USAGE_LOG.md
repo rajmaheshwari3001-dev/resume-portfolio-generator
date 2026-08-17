@@ -1,13 +1,20 @@
-# 🤖 AI Usage Log
+<div align="center">
+  <h1>🤖 AI Usage Log</h1>
+  <p><em>Tracking the collaborative pair-programming journey with Artificial Intelligence.</em></p>
+</div>
 
-This document tracks how Artificial Intelligence was utilized as a pair-programming assistant during the development of the **AI-Assisted Resume Portfolio Generator**.
+---
+
+### 🧠 Core Development & Problem Solving
 
 | Action | Details |
 | :--- | :--- |
-| **🛠 Tool Used** | Google Gemini (via Agentic Coding Assistant) |
-| **🗣 Prompts Given** | 1. "Assist in defining a strict JSON schema for the Google GenAI extraction prompt to prevent data hallucination."<br>2. "Provide logic for an exponential backoff loop to gracefully handle API 503 high-demand errors."<br>3. "Help structure a responsive HTML grid layout for the `template.html` file."<br>4. "Create a design thinking plan to improve the UI/UX with modern fonts and a better theme."<br>5. "Why is the chatbot giving the same answer every time? Improve their latency and messaging style."<br>6. "Add a feature to select portfolio themes (Glassmorphism, Cyberpunk, Neobrutalism)."<br>7. "Improve the theme of the landing page to have brighter vibes." |
-| **✨ What Was Generated** | - Baseline boilerplate for the SDK integration.<br>- The skeleton layout of the HTML/CSS template, and later the "Brighter Vibes" redesign with frosty glassmorphism panels, premium fonts (`Plus Jakarta Sans`), and glowing sunset blobs.<br>- The `try/except` loop logic in Python to manage server retries.<br>- Improved conversational AI prompt and history mapping for the portfolio chatbot.<br>- A fully functional Theme Card selection UI that dynamically injects CSS template classes into the generated portfolio. |
-| **🔧 What Was Corrected** | - Refactored the generated Python script to strictly run locally via the CLI as per the project rubric requirements.<br>- Stripped out unnecessary web server frameworks to ensure the codebase remains purely focused on local JSON extraction and HTML generation.<br>- **Critical Bug Fix:** Removed the `google-generativeai` pip dependencies entirely, migrating to raw Python `requests` to the Gemini REST API.<br>- **Validation Fix:** Removed the strict 40-word limit minimum to allow shorter resumes, and added a robust fallback logic to handle resumes that omit the candidate's name. |
+| **🛠 Primary Tool** | Google Gemini (via Agentic Coding Assistant) |
+| **🗣 Key Prompts** | 1. "Assist in defining a strict JSON schema for the Google GenAI extraction prompt to prevent data hallucination."<br>2. "Provide logic for an exponential backoff loop to gracefully handle API 503 high-demand errors."<br>3. "Add a feature to select portfolio themes (Glassmorphism, Cyberpunk, Neobrutalism)."<br>4. "Implement a smart Resume Strength Meter to visually validate inputs before hitting the API, saving credits."<br>5. "Ensure the entire platform passes strict Lighthouse SEO and Accessibility audits." |
+| **✨ Generated Assets** | - **Architecture:** Baseline boilerplate for SDK integration and the exponential backoff try/except loop.<br>- **UI/UX Design:** Complete "Brighter Vibes" landing page redesign featuring frosty glassmorphism panels, CSS variables, and GSAP animations.<br>- **Smart Validation:** The heuristic client-side strength meter and validation modal logic.<br>- **Dynamic Themes:** 5 interactive, dynamically injected CSS themes for the portfolio generation. |
+| **🔧 Corrected Errors** | - **Dependency Conflicts:** Stripped official `google-generativeai` packages that crashed on Python 3.14 protobufs, pivoting successfully to robust raw REST API `requests`.<br>- **Vercel Limits:** Relocated the 503 retry logic deeply into the `generateContent` function so it protects Vercel serverless functions without hitting 10s timeouts.<br>- **Accessibility & SEO:** Patched missing iframe titles, canonical links, and `<meta robots>` tags to eliminate Lighthouse error rates. |
 
 ---
-*Log finalized in compliance with project brief guidelines.*
+<div align="right">
+  <i>Log finalized in compliance with strict UI/UX and project brief guidelines.</i>
+</div>
