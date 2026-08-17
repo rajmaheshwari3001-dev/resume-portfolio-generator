@@ -80,9 +80,17 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
         }
     }
     
-    response = requests.post(url, json=payload, headers={'Content-Type': 'application/json'})
-    if response.status_code != 200:
-        raise Exception(f"Gemini API Error: {response.text}")
+    import time
+    max_retries = 3
+    for attempt in range(max_retries):
+        response = requests.post(url, json=payload, headers={'Content-Type': 'application/json'})
+        if response.status_code == 200:
+            break
+        elif response.status_code == 503 and attempt < max_retries - 1:
+            time.sleep(2)  # Short 2-second sleep for serverless environments
+            continue
+        else:
+            raise Exception(f"Gemini API Error: {response.status_code} - {response.text}")
         
     data = response.json()
     ai_response_text = data["candidates"][0]["content"]["parts"][0]["text"].replace('```json', '').replace('```', '').strip()
