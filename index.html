@@ -1,106 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI-Assisted Resume Portfolio Generator. Instantly transform your unstructured resume text into a stunning, responsive, and glassmorphic personal portfolio using Google Gemini AI.">
-    <meta name="keywords" content="Resume generator, AI portfolio, Gemini AI, resume to HTML, automated portfolio, tech portfolio builder">
-    <meta name="author" content="Rajesh Kumar">
-    <title>PORTFOLIO.AI - Resume Reimagined</title>
-    <!-- Use premium 3-font system -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+    <meta name="description"
+        content="AI-Assisted Resume Portfolio Generator. Instantly transform your unstructured resume text into a stunning, responsive, and modern personal portfolio using AI.">
+    <title>PORTFOLIO.AI - Create Your Premium Portfolio</title>
+    <!-- Modern Typography: Inter and Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <main>
+    <!-- Background Decor -->
+    <div class="bg-glow blob-1"></div>
+    <div class="bg-glow blob-2"></div>
+    <div class="bg-grid"></div>
 
-    <!-- Dynamic Mesh Background -->
-    <div class="mesh-bg">
-        <div class="mesh-blob blob-1"></div>
-        <div class="mesh-blob blob-2"></div>
-        <div class="mesh-blob blob-3"></div>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="premium-nav">
+    <!-- Navigation -->
+    <nav class="navbar">
         <div class="logo">
-            <span class="logo-bold">PORTFOLIO</span>.AI
+            <span class="logo-bold">PORTFOLIO</span><span class="logo-accent">.AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com" target="_blank" class="nav-icon" title="GitHub">
+                <i data-lucide="github"></i>
+            </a>
         </div>
     </nav>
 
-    <!-- Main App Container -->
-    <div class="app-container">
-        
-        <!-- Left: Input Console -->
-        <div class="console-panel glass-panel">
-            <div class="hero-header">
-                <h1 class="dramatic-title">Your resume.<br><span class="editorial-accent">Reimagined.</span></h1>
-            </div>
-            
-            <p class="panel-subtitle">Upload your resume.txt or paste your resume text below to generate your portfolio.</p>
+    <!-- Main Content Grid -->
+    <main class="app-grid">
 
-            <div class="upload-zone magnetic-zone" id="drop-zone">
+        <!-- Left Column: Input -->
+        <section class="input-section bento-card">
+            <div class="hero-content">
+                <div class="badge">AI-Powered</div>
+                <h1 class="hero-title">Your resume.<br><span class="gradient-text">Reimagined.</span></h1>
+                <p class="hero-desc">Upload your resume to generate a beautifully crafted, highly professional portfolio
+                    in seconds.</p>
+            </div>
+
+            <div class="upload-zone" id="drop-zone">
                 <input type="file" id="file-input" accept=".txt" hidden>
-                <div class="upload-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                        <polyline points="17 8 12 3 7 8"/>
-                        <line x1="12" y1="3" x2="12" y2="15"/>
-                    </svg>
+                <div class="upload-icon-wrapper">
+                    <i data-lucide="upload-cloud"></i>
                 </div>
-                <span class="upload-title">Drop resume.txt here</span>
-                <span class="upload-sub">or <button id="browse-btn" class="text-btn magnetic">Browse Files</button></span>
+                <h3 class="upload-title">Drop your resume.txt here</h3>
+                <p class="upload-sub">or <button id="browse-btn" class="text-btn">Browse files</button></p>
             </div>
 
-            <div class="text-editor-container">
-                <textarea id="resume-input" placeholder="Alternatively, paste your raw resume text here..."></textarea>
-                <div class="editor-footer">
+            <div class="editor-box">
+                <div class="editor-header">
+                    <span><i data-lucide="file-text" class="sm-icon"></i> Raw Text</span>
                     <span class="status-indicator" id="status-badge">
-                        <span class="pulse-dot"></span> Awaiting Input
+                        <span class="dot"></span> Awaiting Input
                     </span>
                 </div>
+                <textarea id="resume-input" placeholder="Alternatively, paste your raw resume text here..."></textarea>
             </div>
 
-            <button id="generate-btn" class="action-btn magnetic-btn" disabled>
+            <button id="generate-btn" class="primary-btn" disabled>
                 <span class="btn-text">Generate Portfolio</span>
+                <i data-lucide="sparkles" class="btn-icon"></i>
                 <span class="loader" hidden></span>
             </button>
             <div id="error-message" class="error-toast" hidden></div>
-        </div>
+        </section>
 
-        <!-- Right: Preview Canvas -->
-        <div class="canvas-panel glass-panel">
-            <div class="panel-header canvas-header">
-                <div class="header-left">
-                    <span class="step-indicator">02</span>
-                    <h2>Portfolio Preview</h2>
+        <!-- Right Column: Preview -->
+        <section class="preview-section bento-card">
+            <div class="preview-header">
+                <div class="header-info">
+                    <span class="step-num">02</span>
+                    <h2>Live Preview</h2>
                 </div>
-                <button id="download-btn" class="download-btn magnetic" hidden>
-                    <span>Download</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" y1="15" x2="12" y2="3"></line>
-                    </svg>
+                <button id="download-btn" class="secondary-btn" hidden>
+                    <i data-lucide="download"></i> Download
                 </button>
             </div>
 
-            <div class="preview-stage" id="preview-container">
+            <div class="preview-container" id="preview-container">
                 <!-- Empty State -->
-                <div class="stage-empty-state">
-                    <div class="abstract-ring"></div>
-                    <h3 class="abstract-title">No Portfolio Yet</h3>
-                    <p class="abstract-desc">Upload data to generate.</p>
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i data-lucide="layout"></i>
+                    </div>
+                    <h3>No Data Provided</h3>
+                    <p>Upload a resume to see the magic happen.</p>
                 </div>
-                
-                <!-- Iframe for injected HTML -->
+
+                <!-- Iframe for generated portfolio -->
                 <iframe id="portfolio-frame" hidden></iframe>
             </div>
-        </div>
-    </div>
+        </section>
 
     </main>
-    <!-- GSAP for insane animations -->
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="script.js"></script>
 </body>

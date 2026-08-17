@@ -15,9 +15,9 @@ magnetics.forEach(magnetic => {
 });
 
 // --- Initial GSAP Animations ---
-gsap.from(".premium-nav", { y: -50, opacity: 0, duration: 1, ease: "power3.out" });
-gsap.from(".console-panel", { x: -50, opacity: 0, duration: 1, delay: 0.2, ease: "power3.out" });
-gsap.from(".canvas-panel", { x: 50, opacity: 0, duration: 1, delay: 0.4, ease: "power3.out" });
+gsap.from(".navbar", { y: -50, opacity: 0, duration: 1, ease: "power3.out" });
+gsap.from(".input-section", { x: -50, opacity: 0, duration: 1, delay: 0.2, ease: "power3.out" });
+gsap.from(".preview-section", { x: 50, opacity: 0, duration: 1, delay: 0.4, ease: "power3.out" });
 
 // --- App Logic ---
 const fileInput = document.getElementById('file-input');
@@ -28,11 +28,11 @@ const generateBtn = document.getElementById('generate-btn');
 const btnText = document.querySelector('.btn-text');
 const loader = document.querySelector('.loader');
 const errorMsg = document.getElementById('error-message');
-const emptyState = document.querySelector('.stage-empty-state');
+const emptyState = document.querySelector('.empty-state');
 const iframe = document.getElementById('portfolio-frame');
 const downloadBtn = document.getElementById('download-btn');
 const statusBadgeText = document.querySelector('.status-indicator').lastChild;
-const pulseDot = document.querySelector('.pulse-dot');
+const pulseDot = document.querySelector('.dot');
 
 let generatedHtml = '';
 

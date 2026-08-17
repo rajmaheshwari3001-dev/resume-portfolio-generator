@@ -26,3 +26,8 @@ async def serve_index():
     index_path = os.path.join(parent_dir, "index.html")
     with open(index_path, "r", encoding="utf-8") as f:
         return HTMLResponse(content=f.read())
+
+# For local testing, serve static files (style.css, script.js)
+from fastapi.staticfiles import StaticFiles
+parent_dir = os.path.dirname(os.path.dirname(__file__))
+app.mount("/", StaticFiles(directory=parent_dir, html=False), name="static")
