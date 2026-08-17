@@ -1,9 +1,7 @@
-Rajesh Kumar
 Phone: 1234567890
-Email: rajesh@example.com
-LinkedIn: https://linkedin.com/in/rajeshkumar
-GitHub: https://github.com/rajeshkumar
-
+Email: applicant@example.com
+LinkedIn: https://linkedin.com/in/applicant
+GitHub: https://github.com/applicant
 Summary:
 Highly motivated and experienced AI Software Engineer with a passion for building robust web applications and integrating advanced machine learning models. Adept at full-stack development, continuous integration, and deploying scalable applications to modern cloud infrastructures.
 

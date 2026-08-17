@@ -4,9 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="AI-Assisted Resume Portfolio Generator. Instantly transform your unstructured resume text into a stunning, responsive, and modern personal portfolio using AI.">
     <title>PORTFOLIO.AI - Create Your Premium Portfolio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="AI-Assisted Resume Portfolio Generator. Instantly transform your unstructured resume text into a stunning, responsive, and modern personal portfolio using Google Gemini AI.">
+    <meta name="keywords" content="AI Portfolio, Resume Builder, Portfolio Generator, Gemini AI, AI Resume">
+    <meta name="author" content="Rajesh Kumar">
+    
+    <!-- OpenGraph / Social Meta Tags -->
+    <meta property="og:title" content="PORTFOLIO.AI - Create Your Premium Portfolio">
+    <meta property="og:description" content="Instantly transform your unstructured resume text into a stunning, responsive, and modern personal portfolio using AI.">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
     <!-- Modern Typography: Plus Jakarta Sans and Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +26,21 @@
 </head>
 
 <body>
+    <!-- Validation Warning Modal -->
+    <div id="validation-modal" class="modal-overlay" hidden>
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i data-lucide="alert-triangle"></i>
+            </div>
+            <h2>Weak Resume Detected</h2>
+            <p>Your resume text looks very short or is missing key sections (Experience, Education, Contact Info). Generating a portfolio with this might waste API credits and yield poor results.</p>
+            <div class="modal-actions">
+                <button id="cancel-generate-btn" class="secondary-btn">Cancel & Edit</button>
+                <button id="force-generate-btn" class="primary-btn warning-btn">Generate Anyway</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Background Decor -->
     <div class="bg-glow blob-1"></div>
     <div class="bg-glow blob-2"></div>
@@ -62,44 +86,67 @@
                         <span class="dot"></span> Awaiting Input
                     </span>
                 </div>
-                <textarea id="resume-input" placeholder="Alternatively, paste your raw resume text here..."></textarea>
+                    <textarea id="resume-input" aria-label="Resume text input" placeholder="Rajesh Kumar
+Phone: 1234567890
+Email: rajesh@example.com
+LinkedIn: https://linkedin.com/in/rajeshkumar
+GitHub: https://github.com/rajeshkumar
+
+Summary:
+Highly motivated and experienced AI Software Engineer with a passion for building robust web applications..."></textarea>
+                    
+                    <!-- Resume Strength Meter -->
+                    <div class="strength-meter-container">
+                        <div class="strength-header">
+                            <span class="strength-label">Resume Strength</span>
+                            <span class="strength-text" id="strength-text">Weak</span>
+                        </div>
+                        <div class="strength-bar-bg">
+                            <div class="strength-bar-fill" id="strength-fill"></div>
+                        </div>
+                    </div>
             </div>
 
             <!-- Customization Options -->
             <div class="options-box">
                 <div class="option-group" style="grid-column: span 2;">
                     <label class="option-label"><i data-lucide="layout-template" class="sm-icon"></i> Select Theme</label>
-                    <div class="theme-showcase" id="theme-select">
-                        <div class="theme-card active" data-theme="standard">
-                            <div class="theme-preview bg-standard"></div>
+                    <div class="theme-grid" role="group" aria-label="Theme Selection">
+                        <!-- Standard Theme -->
+                        <div class="theme-card active" data-theme="standard" tabindex="0" aria-label="Select Standard Theme">
+                            <div class="theme-preview preview-standard"></div>
                             <div class="theme-info">
                                 <h4>Standard</h4>
                                 <p>Professional</p>
                             </div>
                         </div>
-                        <div class="theme-card" data-theme="minimal">
-                            <div class="theme-preview bg-minimal"></div>
+                        <!-- Minimal Theme -->
+                        <div class="theme-card" data-theme="minimal" tabindex="0" aria-label="Select Minimal Theme">
+                            <div class="theme-preview preview-minimal"></div>
                             <div class="theme-info">
                                 <h4>Minimal</h4>
                                 <p>Clean lines</p>
                             </div>
                         </div>
-                        <div class="theme-card" data-theme="glassmorphism">
-                            <div class="theme-preview bg-glassmorphism"></div>
+                        <!-- Glass Theme -->
+                        <div class="theme-card" data-theme="glassmorphism" tabindex="0" aria-label="Select Glass Theme">
+                            <div class="theme-preview preview-glass"></div>
                             <div class="theme-info">
                                 <h4>Glass</h4>
                                 <p>Modern blur</p>
                             </div>
                         </div>
-                        <div class="theme-card" data-theme="cyberpunk">
-                            <div class="theme-preview bg-cyberpunk"></div>
+                        <!-- Cyberpunk Theme -->
+                        <div class="theme-card" data-theme="cyberpunk" tabindex="0" aria-label="Select Cyberpunk Theme">
+                            <div class="theme-preview preview-cyberpunk"></div>
                             <div class="theme-info">
                                 <h4>Cyberpunk</h4>
                                 <p>Neon dark</p>
                             </div>
                         </div>
-                        <div class="theme-card" data-theme="neobrutalism">
-                            <div class="theme-preview bg-neobrutalism"></div>
+                        <!-- Neobrutal Theme -->
+                        <div class="theme-card" data-theme="neobrutalism" tabindex="0" aria-label="Select Neobrutal Theme">
+                            <div class="theme-preview preview-neobrutal"></div>
                             <div class="theme-info">
                                 <h4>Neobrutal</h4>
                                 <p>Bold & raw</p>
@@ -110,21 +157,21 @@
                 
                 <div class="option-group">
                     <label class="option-label"><i data-lucide="palette" class="sm-icon"></i> Theme Color</label>
-                    <div class="color-swatches" id="color-picker">
-                        <div class="swatch active" data-color="#6366F1" style="background: #6366F1;" title="Indigo"></div>
-                        <div class="swatch" data-color="#10B981" style="background: #10B981;" title="Emerald"></div>
-                        <div class="swatch" data-color="#F43F5E" style="background: #F43F5E;" title="Rose"></div>
-                        <div class="swatch" data-color="#F59E0B" style="background: #F59E0B;" title="Amber"></div>
-                    </div>
+                        <div class="color-options" role="group" aria-label="Theme Color Selection">
+                            <button class="color-btn active" data-color="blue" style="background: #3b82f6;" aria-label="Select Blue Color"></button>
+                            <button class="color-btn" data-color="emerald" style="background: #10b981;" aria-label="Select Emerald Color"></button>
+                            <button class="color-btn" data-color="rose" style="background: #f43f5e;" aria-label="Select Rose Color"></button>
+                            <button class="color-btn" data-color="amber" style="background: #f59e0b;" aria-label="Select Amber Color"></button>
+                        </div>
                 </div>
-            </div>
-
-            <button id="generate-btn" class="primary-btn" disabled>
+                <!-- Generate Action -->
+                <button id="generate-btn" class="primary-btn" disabled aria-label="Generate Portfolio">
                 <span class="btn-text">Generate Portfolio</span>
                 <i data-lucide="sparkles" class="btn-icon"></i>
                 <span class="loader" hidden></span>
             </button>
             <div id="error-message" class="error-toast" hidden></div>
+            </div>
         </section>
 
         <!-- Right Column: Preview -->

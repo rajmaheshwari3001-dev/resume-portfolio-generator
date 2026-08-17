@@ -35,10 +35,16 @@ const statusBadgeText = document.querySelector('.status-indicator').lastChild;
 const pulseDot = document.querySelector('.dot');
 const themeCards = document.querySelectorAll('.theme-card');
 const swatches = document.querySelectorAll('.swatch');
+const strengthText = document.getElementById('strength-text');
+const strengthFill = document.getElementById('strength-fill');
+const validationModal = document.getElementById('validation-modal');
+const cancelGenerateBtn = document.getElementById('cancel-generate-btn');
+const forceGenerateBtn = document.getElementById('force-generate-btn');
 
 let selectedThemeColor = '#6366F1'; // Default Indigo
 let selectedTheme = 'standard'; // Default Theme
 let generatedHtml = '';
+let currentStrengthScore = 0;
 
 // Theme Card Selection
 themeCards.forEach(card => {
@@ -97,12 +103,47 @@ function handleFileSelect() {
     }
 }
 
-// Input Validation
+// Input Validation & Strength Meter
 resumeInput.addEventListener('input', validateInput);
 
 function validateInput() {
     const text = resumeInput.value.trim();
     
+    // Calculate Strength
+    let score = 0;
+    if (text.length > 50) score += 20;
+    if (text.length > 200) score += 20;
+    
+    const lowerText = text.toLowerCase();
+    if (lowerText.includes('experience') || lowerText.includes('work')) score += 20;
+    if (lowerText.includes('education') || lowerText.includes('university') || lowerText.includes('degree')) score += 15;
+    if (lowerText.includes('skills') || lowerText.includes('technologies')) score += 15;
+    if (text.includes('@') || text.match(/\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}/)) score += 10;
+    
+    currentStrengthScore = Math.min(score, 100);
+    
+    // Update UI
+    strengthFill.style.width = currentStrengthScore + '%';
+    
+    if (text.length === 0) {
+        strengthFill.style.width = '0%';
+        strengthFill.style.backgroundColor = 'var(--border-subtle)';
+        strengthText.textContent = 'None';
+        strengthText.style.color = 'var(--text-secondary)';
+    } else if (currentStrengthScore < 40) {
+        strengthFill.style.backgroundColor = '#ef4444'; // Red
+        strengthText.textContent = 'Weak';
+        strengthText.style.color = '#ef4444';
+    } else if (currentStrengthScore < 75) {
+        strengthFill.style.backgroundColor = '#f59e0b'; // Amber
+        strengthText.textContent = 'Good';
+        strengthText.style.color = '#f59e0b';
+    } else {
+        strengthFill.style.backgroundColor = '#10b981'; // Emerald
+        strengthText.textContent = 'Excellent';
+        strengthText.style.color = '#10b981';
+    }
+
     if (text.length > 0) {
         generateBtn.disabled = false;
         statusBadgeText.textContent = " Ready to Generate";
@@ -119,7 +160,7 @@ function validateInput() {
     }
 }
 
-// Generate Portfolio
+// Generate Portfolio Logic
 generateBtn.addEventListener('click', async () => {
     const prompt = resumeInput.value.trim();
     
@@ -127,6 +168,27 @@ generateBtn.addEventListener('click', async () => {
         showError("Please provide some resume text.");
         return;
     }
+
+    // Creative Validation Intercept
+    if (currentStrengthScore < 40) {
+        validationModal.hidden = false;
+        return;
+    }
+    
+    doGenerate();
+});
+
+cancelGenerateBtn.addEventListener('click', () => {
+    validationModal.hidden = true;
+});
+
+forceGenerateBtn.addEventListener('click', () => {
+    validationModal.hidden = true;
+    doGenerate();
+});
+
+async function doGenerate() {
+    const prompt = resumeInput.value.trim();
 
     // UI Loading State
     generateBtn.disabled = true;
@@ -190,7 +252,7 @@ generateBtn.addEventListener('click', async () => {
         loader.hidden = true;
         pulseDot.style.animationDuration = "2s";
     }
-});
+}
 
 // Download Logic
 downloadBtn.addEventListener('click', () => {
