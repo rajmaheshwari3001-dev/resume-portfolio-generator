@@ -34,11 +34,10 @@
             <div class="modal-icon">
                 <i data-lucide="alert-triangle"></i>
             </div>
-            <h2>Weak Resume Detected</h2>
-            <p>Your resume text looks very short or is missing key sections (Experience, Education, Contact Info). Generating a portfolio with this might waste API credits and yield poor results.</p>
-            <div class="modal-actions">
-                <button id="cancel-generate-btn" class="secondary-btn">Cancel & Edit</button>
-                <button id="force-generate-btn" class="primary-btn warning-btn">Generate Anyway</button>
+            <h2>Invalid Resume Detected</h2>
+            <p id="validation-msg">Your input does not look like a valid resume. Please ensure it contains at least 10 words and includes basic information like your name, skills, experience, or education.</p>
+            <div class="modal-actions" style="justify-content: center;">
+                <button id="cancel-generate-btn" class="primary-btn warning-btn">Got it, I'll fix it</button>
             </div>
         </div>
     </div>
@@ -66,7 +65,6 @@
         <!-- Left Column: Input -->
         <section class="input-section bento-card">
             <div class="hero-content">
-                <div class="badge">AI-Powered</div>
                 <h1 class="hero-title">Your resume.<br><span class="gradient-text">Reimagined.</span></h1>
                 <p class="hero-desc">Upload your resume to generate a beautifully crafted, highly professional portfolio
                     in seconds.</p>
@@ -96,17 +94,6 @@ GitHub: https://github.com/rajeshkumar
 
 Summary:
 Highly motivated and experienced AI Software Engineer with a passion for building robust web applications..."></textarea>
-                    
-                    <!-- Resume Strength Meter -->
-                    <div class="strength-meter-container">
-                        <div class="strength-header">
-                            <span class="strength-label">Resume Strength</span>
-                            <span class="strength-text" id="strength-text">Weak</span>
-                        </div>
-                        <div class="strength-bar-bg">
-                            <div class="strength-bar-fill" id="strength-fill"></div>
-                        </div>
-                    </div>
             </div>
 
             <!-- Customization Options -->

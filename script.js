@@ -35,16 +35,13 @@ const statusBadgeText = document.querySelector('.status-indicator').lastChild;
 const pulseDot = document.querySelector('.dot');
 const themeCards = document.querySelectorAll('.theme-card');
 const swatches = document.querySelectorAll('.swatch');
-const strengthText = document.getElementById('strength-text');
-const strengthFill = document.getElementById('strength-fill');
 const validationModal = document.getElementById('validation-modal');
 const cancelGenerateBtn = document.getElementById('cancel-generate-btn');
-const forceGenerateBtn = document.getElementById('force-generate-btn');
+const validationMsg = document.getElementById('validation-msg');
 
-let selectedThemeColor = '#6366F1'; // Default Indigo
+let selectedThemeColor = '#3b82f6'; // Default Blue
 let selectedTheme = 'standard'; // Default Theme
 let generatedHtml = '';
-let currentStrengthScore = 0;
 
 // Theme Card Selection
 themeCards.forEach(card => {
@@ -103,46 +100,11 @@ function handleFileSelect() {
     }
 }
 
-// Input Validation & Strength Meter
+// Input Validation
 resumeInput.addEventListener('input', validateInput);
 
 function validateInput() {
     const text = resumeInput.value.trim();
-    
-    // Calculate Strength
-    let score = 0;
-    if (text.length > 50) score += 20;
-    if (text.length > 200) score += 20;
-    
-    const lowerText = text.toLowerCase();
-    if (lowerText.includes('experience') || lowerText.includes('work')) score += 20;
-    if (lowerText.includes('education') || lowerText.includes('university') || lowerText.includes('degree')) score += 15;
-    if (lowerText.includes('skills') || lowerText.includes('technologies')) score += 15;
-    if (text.includes('@') || text.match(/\d{3}[-\.\s]??\d{3}[-\.\s]??\d{4}/)) score += 10;
-    
-    currentStrengthScore = Math.min(score, 100);
-    
-    // Update UI
-    strengthFill.style.width = currentStrengthScore + '%';
-    
-    if (text.length === 0) {
-        strengthFill.style.width = '0%';
-        strengthFill.style.backgroundColor = 'var(--border-subtle)';
-        strengthText.textContent = 'None';
-        strengthText.style.color = 'var(--text-secondary)';
-    } else if (currentStrengthScore < 40) {
-        strengthFill.style.backgroundColor = '#ef4444'; // Red
-        strengthText.textContent = 'Weak';
-        strengthText.style.color = '#ef4444';
-    } else if (currentStrengthScore < 75) {
-        strengthFill.style.backgroundColor = '#f59e0b'; // Amber
-        strengthText.textContent = 'Good';
-        strengthText.style.color = '#f59e0b';
-    } else {
-        strengthFill.style.backgroundColor = '#10b981'; // Emerald
-        strengthText.textContent = 'Excellent';
-        strengthText.style.color = '#10b981';
-    }
 
     if (text.length > 0) {
         generateBtn.disabled = false;
@@ -162,17 +124,41 @@ function validateInput() {
 
 // Generate Portfolio Logic
 generateBtn.addEventListener('click', async () => {
-    const prompt = resumeInput.value.trim();
+    const text = resumeInput.value.trim();
     
-    if (!prompt) {
+    if (!text) {
         showError("Please provide some resume text.");
         return;
     }
 
-    // Creative Validation Intercept
-    if (currentStrengthScore < 40) {
+    const words = text.split(/\s+/).filter(w => w.length > 0);
+    const lowerText = text.toLowerCase();
+    
+    // Strict Validation Intercept
+    let isValid = true;
+    let errorMsg = "";
+
+    if (words.length < 10) {
+        isValid = false;
+        errorMsg = "Your input is too short. Please provide at least 10 words.";
+    } else if (
+        !lowerText.includes('experience') && 
+        !lowerText.includes('education') && 
+        !lowerText.includes('skill') &&
+        !lowerText.includes('work') &&
+        !lowerText.includes('degree') &&
+        !text.includes('@') &&
+        !text.includes('name') &&
+        !lowerText.includes('project')
+    ) {
+        isValid = false;
+        errorMsg = "Your text does not look like a resume. It must contain standard resume information (like skills, experience, education, contact info, or projects) to generate a valid portfolio without hallucinating.";
+    }
+
+    if (!isValid) {
+        validationMsg.textContent = errorMsg;
         validationModal.hidden = false;
-        return;
+        return; // Hard block, do not generate
     }
     
     doGenerate();
@@ -180,11 +166,6 @@ generateBtn.addEventListener('click', async () => {
 
 cancelGenerateBtn.addEventListener('click', () => {
     validationModal.hidden = true;
-});
-
-forceGenerateBtn.addEventListener('click', () => {
-    validationModal.hidden = true;
-    doGenerate();
 });
 
 async function doGenerate() {
