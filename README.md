@@ -81,3 +81,7 @@ Our prompt rigorously enforces a strict JSON format. It aggressively commands Ge
 
 ## Team Contributors
 - Teeya
+- Parth Sachdeva
+- Shivangi Gautam
+- Bulbul Ali
+- Raj Maheshwari
