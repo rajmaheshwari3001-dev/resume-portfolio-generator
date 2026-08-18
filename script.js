@@ -181,6 +181,7 @@ proceedGenerateBtn.addEventListener('click', () => {
     doGenerate();
 });
 
+// Handles the core API request and updates the UI state during generation
 async function doGenerate() {
     const prompt = resumeInput.value.trim();
 
