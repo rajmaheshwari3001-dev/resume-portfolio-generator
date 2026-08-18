@@ -17,6 +17,7 @@ class ResumeRequest(BaseModel):
     template: str = "standard"
     theme_color: str = "#6366F1"
 
+# Main API endpoint for Vercel serverless deployment
 @app.post("/api/generate")
 async def api_generate(req: ResumeRequest):
     try:
