@@ -117,6 +117,7 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     name = resume_data.get("name")
     if not name or name.strip() == "":
         name = "Your Name"
+    # Dynamically inject the extracted JSON data into the HTML template placeholders
     html_code = html_code.replace("{{name}}", name)
     
     title = resume_data.get("title")
