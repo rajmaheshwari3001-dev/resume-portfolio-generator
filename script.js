@@ -37,6 +37,7 @@ const themeCards = document.querySelectorAll('.theme-card');
 const swatches = document.querySelectorAll('.swatch');
 const validationModal = document.getElementById('validation-modal');
 const cancelGenerateBtn = document.getElementById('cancel-generate-btn');
+const proceedGenerateBtn = document.getElementById('proceed-generate-btn');
 const validationMsg = document.getElementById('validation-msg');
 
 let selectedThemeColor = '#3b82f6'; // Default Blue
@@ -105,20 +106,28 @@ resumeInput.addEventListener('input', validateInput);
 
 function validateInput() {
     const text = resumeInput.value.trim();
+    const words = text.split(/\s+/).filter(w => w.length > 0);
 
-    if (text.length > 0) {
+    if (words.length >= 10) {
         generateBtn.disabled = false;
         statusBadgeText.textContent = " Ready to Generate";
         pulseDot.classList.add('active');
+        pulseDot.style.backgroundColor = '#10b981'; // Green
         
         // GSAP pulse
         gsap.to(generateBtn, {
             scale: 1.02, duration: 0.3, yoyo: true, repeat: 1
         });
+    } else if (words.length > 0) {
+        generateBtn.disabled = false;
+        statusBadgeText.textContent = " Needs More Detail";
+        pulseDot.classList.add('active');
+        pulseDot.style.backgroundColor = '#f59e0b'; // Amber/Warning
     } else {
         generateBtn.disabled = true;
         statusBadgeText.textContent = ` Awaiting Input`;
         pulseDot.classList.remove('active');
+        pulseDot.style.backgroundColor = '';
     }
 }
 
@@ -148,7 +157,6 @@ generateBtn.addEventListener('click', async () => {
         !lowerText.includes('work') &&
         !lowerText.includes('degree') &&
         !text.includes('@') &&
-        !text.includes('name') &&
         !lowerText.includes('project')
     ) {
         isValid = false;
@@ -166,6 +174,11 @@ generateBtn.addEventListener('click', async () => {
 
 cancelGenerateBtn.addEventListener('click', () => {
     validationModal.hidden = true;
+});
+
+proceedGenerateBtn.addEventListener('click', () => {
+    validationModal.hidden = true;
+    doGenerate();
 });
 
 async function doGenerate() {

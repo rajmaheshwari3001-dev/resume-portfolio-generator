@@ -34,7 +34,11 @@
 
         body {
             background-color: var(--bg-color);
-            background: radial-gradient(circle at top right, #111827 0%, #09090b 100%);
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(var(--accent-color-rgb, 6, 182, 212), 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(99, 102, 241, 0.15), transparent 25%),
+                linear-gradient(135deg, #111827 0%, #09090b 100%);
+            background-attachment: fixed;
             color: var(--text-main);
             padding: 2rem;
             min-height: 100vh;
@@ -231,12 +235,29 @@
             font-weight: 500;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: default;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .card-skills li::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
         .card-skills li:hover {
             background: rgba(99, 102, 241, 0.25);
-            border-color: rgba(99, 102, 241, 0.8);
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
-            transform: translateY(-2px);
+            border-color: var(--accent-color, rgba(99, 102, 241, 0.8));
+            box-shadow: 0 0 20px var(--accent-color, rgba(99, 102, 241, 0.4));
+            transform: translateY(-2px) scale(1.05);
+            color: #ffffff;
+        }
+        
+        .card-skills li:hover::before {
+            left: 100%;
         }
 
         /* Projects (Spans 4 cols) */
@@ -318,7 +339,7 @@
         .template-minimal .card-hero { background: #f1f5f9; box-shadow: none; }
         .template-minimal .text-muted, .template-minimal .card-header { color: #64748b; }
         .template-minimal h1, .template-minimal h2, .template-minimal h3 { color: #0f172a; }
-        .template-minimal .job p, .template-minimal .project p { color: #475569; }
+        .template-minimal .job p, .template-minimal .project p, .template-minimal .card-hero p { color: #475569; }
         .template-minimal .contact-item a { color: #0f172a; }
         .template-minimal .contact-item a:hover { color: var(--accent-color, #06B6D4); }
         .template-minimal .card-skills li { background: #f1f5f9; border-color: transparent; color: #334155; }
@@ -340,7 +361,7 @@
         .template-glassmorphism .card-hero { background: rgba(255, 255, 255, 0.08); }
         .template-glassmorphism .text-muted, .template-glassmorphism .card-header { color: #cbd5e1; }
         .template-glassmorphism h1, .template-glassmorphism h2, .template-glassmorphism h3 { color: #ffffff; }
-        .template-glassmorphism .job p, .template-glassmorphism .project p { color: #e2e8f0; }
+        .template-glassmorphism .job p, .template-glassmorphism .project p, .template-glassmorphism .card-hero p { color: #e2e8f0; }
         .template-glassmorphism .card-skills li { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #fff; }
 
         /* 3. Cyberpunk */
@@ -366,7 +387,7 @@
             text-shadow: 0 0 8px var(--accent-color, #06b6d4);
             color: #ffffff;
         }
-        .template-cyberpunk .text-muted, .template-cyberpunk .job p, .template-cyberpunk .project p { color: #94a3b8; }
+        .template-cyberpunk .text-muted, .template-cyberpunk .job p, .template-cyberpunk .project p, .template-cyberpunk .card-hero p { color: #94a3b8; }
         .template-cyberpunk .card-skills li {
             border-radius: 0; background: transparent; border-color: var(--accent-color, #06b6d4); color: #fff;
             text-shadow: 0 0 5px var(--accent-color, #06b6d4);
@@ -391,8 +412,8 @@
             border-color: #000000;
         }
         .template-neobrutalism h1, .template-neobrutalism h2, .template-neobrutalism h3, .template-neobrutalism .card-header { color: #000000; font-weight: 800; }
-        .template-neobrutalism .text-muted, .template-neobrutalism .job p, .template-neobrutalism .project p { color: #111111; font-weight: 500; }
-        .template-neobrutalism .contact-item a { color: #000000; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+        .template-neobrutalism .text-muted, .template-neobrutalism .job p, .template-neobrutalism .project p, .template-neobrutalism .card-hero p { color: #111111; font-weight: 500; }
+        .template-neobrutalism .contact-item a, .template-neobrutalism a { color: #000000; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
         .template-neobrutalism .card-skills li {
             background-color: #ffffff;
             color: #000000;

@@ -70,7 +70,7 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     {cleaned_resume_text}
     """
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={api_key}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={api_key}"
     
     payload = {
         "contents": [{"role": "user", "parts": [{"text": prompt}]}],
