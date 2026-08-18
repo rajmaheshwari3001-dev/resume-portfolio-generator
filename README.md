@@ -78,3 +78,6 @@ Our prompt rigorously enforces a strict JSON format. It aggressively commands Ge
 <div align="center">
 <i>Built with precision for the modern developer.</i>
 </div>
+
+## Team Contributors
+- Teeya
