@@ -147,24 +147,33 @@ generateBtn.addEventListener('click', async () => {
     let isValid = true;
     let errorMsg = "";
 
+    const hasSkills = lowerText.includes('skill');
+    const hasNameOrContact = text.includes('@') || /[0-9]{7,}/.test(text) || lowerText.includes('name');
+
     if (words.length < 10) {
         isValid = false;
         errorMsg = "Your input is too short. Please provide at least 10 words.";
+    } else if (!hasSkills || !hasNameOrContact) {
+        isValid = false;
+        errorMsg = "Strict Validation Failed: Your resume MUST contain a 'Skills' section and basic contact information (Email/Phone) or 'Name' before generating.";
     } else if (
         !lowerText.includes('experience') && 
         !lowerText.includes('education') && 
-        !lowerText.includes('skill') &&
         !lowerText.includes('work') &&
         !lowerText.includes('degree') &&
-        !text.includes('@') &&
         !lowerText.includes('project')
     ) {
         isValid = false;
-        errorMsg = "Your text does not look like a resume. It must contain standard resume information (like skills, experience, education, contact info, or projects) to generate a valid portfolio without hallucinating.";
+        errorMsg = "Your text does not look like a complete resume. It must contain experience, education, or projects to generate a valid portfolio without hallucinating.";
     }
 
     if (!isValid) {
         validationMsg.textContent = errorMsg;
+        if (!hasSkills || !hasNameOrContact) {
+            proceedGenerateBtn.style.display = 'none'; // Mandatory fields missing
+        } else {
+            proceedGenerateBtn.style.display = 'inline-block';
+        }
         validationModal.hidden = false;
         return; // Hard block, do not generate
     }
