@@ -281,23 +281,13 @@ textarea::placeholder { color: var(--text-tertiary); }
 }
 /* Theme Showcase */
 .theme-showcase {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 1rem;
-    overflow-x: auto;
     padding-bottom: 0.5rem;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border-subtle) transparent;
-}
-.theme-showcase::-webkit-scrollbar {
-    height: 6px;
-}
-.theme-showcase::-webkit-scrollbar-thumb {
-    background-color: var(--border-subtle);
-    border-radius: 4px;
 }
 
 .theme-card {
-    flex: 0 0 120px;
     background: var(--bg-surface);
     border: 1px solid var(--border-subtle);
     border-radius: 12px;
@@ -305,24 +295,60 @@ textarea::placeholder { color: var(--text-tertiary); }
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    width: 100%;
 }
 .theme-card:hover {
     border-color: var(--accent-primary);
-    transform: translateY(-2px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
 .theme-card.active {
     border-color: var(--accent-primary);
     background: rgba(244, 63, 94, 0.05);
     box-shadow: 0 4px 20px rgba(244, 63, 94, 0.15);
 }
+.theme-card.active::after {
+    content: '✓';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent-primary);
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
 
 .theme-preview {
-    height: 60px;
+    height: 70px;
     border-radius: 8px;
     margin-bottom: 0.5rem;
     background-size: cover;
     background-position: center;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 6px;
+    overflow: hidden;
+}
+
+.mini-header {
+    height: 12px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 70%;
+}
+.mini-body {
+    flex-grow: 1;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    width: 100%;
 }
 
 /* Simulated theme thumbnails */
