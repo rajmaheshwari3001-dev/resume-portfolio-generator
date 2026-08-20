@@ -321,9 +321,14 @@
         }
         
         @media (max-width: 480px) {
+            body { padding: 0.5rem; }
+            .bento-grid { gap: 0.75rem; }
             .bento-card { padding: 1.25rem; border-radius: 20px;}
             .project { padding: 1.25rem; border-radius: 16px;}
-            .card-skills li { font-size: 0.85rem; padding: 0.6rem 1.2rem; }
+            .card-skills li { font-size: 0.85rem; padding: 0.5rem 1rem; }
+            .card-hero h1 { font-size: clamp(2rem, 8vw, 2.5rem); }
+            .card-hero h2 { font-size: clamp(1.1rem, 5vw, 1.3rem); }
+            .job h3, .project h3, .education h3 { font-size: 1.1rem; }
         }
 
         /* --- THEME STYLES --- */
@@ -347,29 +352,37 @@
 
         /* 2. Glassmorphism */
         .template-glassmorphism body {
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(var(--accent-color-rgb, 99,102,241), 0.35) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(var(--accent-color-rgb, 99,102,241), 0.35) 0%, transparent 50%);
             color: #ffffff;
         }
         .template-glassmorphism .bento-card, .template-glassmorphism .project {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
             color: #ffffff;
         }
-        .template-glassmorphism .card-hero { background: rgba(255, 255, 255, 0.08); }
+        .template-glassmorphism .bento-card:hover, .template-glassmorphism .project:hover {
+            border-color: rgba(var(--accent-color-rgb, 255,255,255), 0.5);
+            box-shadow: 0 15px 40px rgba(var(--accent-color-rgb, 255,255,255), 0.15);
+        }
+        .template-glassmorphism .card-hero { background: rgba(var(--accent-color-rgb, 255,255,255), 0.08); }
         .template-glassmorphism .text-muted, .template-glassmorphism .card-header { color: #cbd5e1; }
         .template-glassmorphism h1, .template-glassmorphism h2, .template-glassmorphism h3 { color: #ffffff; }
         .template-glassmorphism .job p, .template-glassmorphism .project p, .template-glassmorphism .card-hero p { color: #e2e8f0; }
-        .template-glassmorphism .card-skills li { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #fff; }
+        .template-glassmorphism .contact-item a { color: var(--accent-color, #60a5fa); }
+        .template-glassmorphism .card-skills li { background: rgba(var(--accent-color-rgb, 255,255,255), 0.15); border-color: rgba(255,255,255,0.1); color: #fff; }
 
         /* 3. Cyberpunk */
         .template-cyberpunk body {
             background-color: #050505;
             background-image: 
-                linear-gradient(rgba(6, 182, 212, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(6, 182, 212, 0.15) 1px, transparent 1px);
+                linear-gradient(rgba(var(--accent-color-rgb, 6, 182, 212), 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(var(--accent-color-rgb, 6, 182, 212), 0.15) 1px, transparent 1px);
             background-size: 30px 30px;
             color: #e2e8f0;
         }
@@ -380,6 +393,10 @@
             box-shadow: 4px 4px 0px var(--accent-color, #06b6d4);
             color: #e2e8f0;
         }
+        .template-cyberpunk .bento-card:hover, .template-cyberpunk .project:hover {
+            box-shadow: 6px 6px 0px var(--accent-color, #06b6d4);
+            transform: translate(-2px, -2px);
+        }
         .template-cyberpunk h1, .template-cyberpunk h2, .template-cyberpunk h3, .template-cyberpunk .card-header {
             font-family: 'Space Grotesk', monospace;
             text-transform: uppercase;
@@ -388,6 +405,7 @@
             color: #ffffff;
         }
         .template-cyberpunk .text-muted, .template-cyberpunk .job p, .template-cyberpunk .project p, .template-cyberpunk .card-hero p { color: #94a3b8; }
+        .template-cyberpunk .contact-item a { color: var(--accent-color, #06b6d4); }
         .template-cyberpunk .card-skills li {
             border-radius: 0; background: transparent; border-color: var(--accent-color, #06b6d4); color: #fff;
             text-shadow: 0 0 5px var(--accent-color, #06b6d4);
