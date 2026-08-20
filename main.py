@@ -82,18 +82,48 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     
     import time
     max_retries = 3
+    ai_response_text = ""
+    success = False
+    last_gemini_error = ""
+
     for attempt in range(max_retries):
         response = requests.post(url, json=payload, headers={'Content-Type': 'application/json'})
         if response.status_code == 200:
+            data = response.json()
+            ai_response_text = data["candidates"][0]["content"]["parts"][0]["text"].replace('```json', '').replace('```', '').strip()
+            success = True
             break
         elif response.status_code == 503 and attempt < max_retries - 1:
             time.sleep(2)  # Short 2-second sleep for serverless environments
             continue
         else:
-            raise Exception(f"Gemini API Error: {response.status_code} - {response.text}")
-        
-    data = response.json()
-    ai_response_text = data["candidates"][0]["content"]["parts"][0]["text"].replace('```json', '').replace('```', '').strip()
+            last_gemini_error = f"Gemini API Error: {response.status_code} - {response.text}"
+            break
+            
+    if not success:
+        grok_api_key = os.environ.get("GROK_API_KEY")
+        if grok_api_key:
+            grok_url = "https://api.xai.com/v1/chat/completions"
+            grok_payload = {
+                "model": "grok-beta",
+                "messages": [
+                    {"role": "system", "content": "You are a strict data extraction assistant. You MUST respond with valid JSON ONLY."},
+                    {"role": "user", "content": prompt}
+                ],
+                "temperature": 0.4
+            }
+            grok_headers = {
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {grok_api_key}"
+            }
+            grok_response = requests.post(grok_url, json=grok_payload, headers=grok_headers)
+            if grok_response.status_code == 200:
+                data = grok_response.json()
+                ai_response_text = data["choices"][0]["message"]["content"].replace('```json', '').replace('```', '').strip()
+            else:
+                raise Exception(f"{last_gemini_error} | Grok Fallback Failed: {grok_response.status_code} - {grok_response.text}")
+        else:
+            raise Exception(last_gemini_error)
     
     resume_data = json.loads(ai_response_text)
     
