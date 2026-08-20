@@ -153,8 +153,17 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     html_code = html_code.replace("<body>", f"<body class='template-{template}'>")
         
     name = resume_data.get("name")
-    if not name or name.strip() == "":
-        name = "Your Name"
+    if not name or name.strip() == "" or "your name" in name.lower() or "applicant" in name.lower():
+        raise Exception("Validation Error: Missing Name. Please provide your actual name in the resume.")
+    
+    email = resume_data.get("email")
+    phone = resume_data.get("phone")
+    linkedin = resume_data.get("linkedin")
+    github = resume_data.get("github")
+    
+    if not any([email, phone, linkedin, github]):
+        raise Exception("Validation Error: Please provide at least one form of contact information (email, phone, or links).")
+        
     # Dynamically inject the extracted JSON data into the HTML template placeholders
     html_code = html_code.replace("{{name}}", name)
     
