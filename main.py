@@ -110,7 +110,15 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     html_code = html_code_cache
 
     # Inject Theme and Template Class
-    theme_style = f"<style>:root {{ --accent-color: {theme_color} !important; }}</style>"
+    # Calculate RGB for rgba() usage in CSS
+    hex_color = theme_color.lstrip('#')
+    try:
+        r, g, b = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+        rgb_str = f"{r}, {g}, {b}"
+    except:
+        rgb_str = "6, 182, 212" # Fallback cyan
+
+    theme_style = f"<style>:root {{ --accent-color: {theme_color} !important; --accent: {theme_color} !important; --accent-color-rgb: {rgb_str} !important; }}</style>"
     html_code = html_code.replace("</head>", f"    {theme_style}\n</head>")
     html_code = html_code.replace("<body>", f"<body class='template-{template}'>")
         
