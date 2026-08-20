@@ -82,31 +82,43 @@ swatches.forEach(swatch => {
 // File Upload Handling
 browseBtn.addEventListener('click', () => fileInput.click());
 
-fileInput.addEventListener('change', handleFileSelect);
+fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+        handleFileSelect(fileInput.files[0]);
+    }
+});
 
-dropZone.addEventListener('dragover', (e) => {
+dropZone.addEventListener('dragenter', (e) => {
     e.preventDefault();
+    e.stopPropagation();
     dropZone.classList.add('drag-over');
 });
 
-dropZone.addEventListener('dragleave', () => {
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.add('drag-over');
+});
+
+dropZone.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     dropZone.classList.remove('drag-over');
 });
 
 dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
+    e.stopPropagation();
     dropZone.classList.remove('drag-over');
-    if (e.dataTransfer.files.length) {
-        fileInput.files = e.dataTransfer.files;
-        handleFileSelect();
+    if (e.dataTransfer && e.dataTransfer.files.length > 0) {
+        handleFileSelect(e.dataTransfer.files[0]);
     }
 });
 
-function handleFileSelect() {
-    const file = fileInput.files[0];
+function handleFileSelect(file) {
     if (!file) return;
     
-    if (file.name.endsWith('.txt')) {
+    if (file.name.toLowerCase().endsWith('.txt')) {
         const reader = new FileReader();
         reader.onload = (e) => {
             resumeInput.value = e.target.result;

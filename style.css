@@ -182,6 +182,12 @@ body {
     cursor: pointer;
     margin-bottom: 1.5rem;
 }
+.upload-zone * {
+    pointer-events: none;
+}
+.upload-zone .text-btn {
+    pointer-events: auto;
+}
 .upload-zone:hover {
     border-color: var(--border-hover);
     background: rgba(0,0,0,0.04);
