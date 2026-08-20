@@ -334,31 +334,55 @@
         }
 
         /* --- THEME STYLES --- */
-        
-        /* 1. Minimal */
-        .template-minimal body { background: #f8f9fa; color: #1e293b; }
+
+        /* 1. Minimal (Single Column Document) */
+        .template-minimal body { background: #fdfdfd; color: #1e293b; display: block; padding: 4rem 1rem; }
+        .template-minimal .bento-grid { display: block; max-width: 800px; margin: 0 auto; gap: 0; }
         .template-minimal .bento-card, .template-minimal .project { 
-            background: #ffffff; 
-            border-color: rgba(0,0,0,0.05); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02); 
-            color: #1e293b;
+            background: transparent; border: none; box-shadow: none; padding: 0 0 2.5rem 0; margin-bottom: 2.5rem; 
+            border-bottom: 1px solid rgba(0,0,0,0.1); border-radius: 0; color: #1e293b; 
         }
-        .template-minimal .card-hero { background: #f1f5f9; box-shadow: none; }
+        .template-minimal .bento-card:hover, .template-minimal .project:hover { transform: none; box-shadow: none; border-color: rgba(0,0,0,0.1); }
+        .template-minimal .card-hero { text-align: center; border-bottom: none; margin-bottom: 1rem; padding-bottom: 1rem; }
+        .template-minimal .card-contact { display: flex; justify-content: center; gap: 2rem; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 2rem; flex-wrap: wrap; text-align: center; }
+        .template-minimal .card-contact .card-header { display: none; }
+        .template-minimal .contact-links { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; width: 100%; }
+        .template-minimal .contact-item { margin-bottom: 0; }
+        .template-minimal .card-projects { display: flex; flex-direction: column; gap: 0; }
+        .template-minimal .project { border-bottom: none; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
         .template-minimal .text-muted, .template-minimal .card-header { color: #64748b; }
         .template-minimal h1, .template-minimal h2, .template-minimal h3 { color: #0f172a; }
-        .template-minimal .job p, .template-minimal .project p, .template-minimal .card-hero p { color: #475569; }
+        .template-minimal .job p, .template-minimal .project p, .template-minimal .card-hero p { color: #475569; font-size: 1.05rem; }
         .template-minimal .contact-item a { color: #0f172a; }
         .template-minimal .contact-item a:hover { color: var(--accent-color, #06B6D4); }
-        .template-minimal .card-skills li { background: #f1f5f9; border-color: transparent; color: #334155; }
-        .template-minimal .card-skills li:hover { background: #e2e8f0; border-color: transparent; }
+        .template-minimal .card-skills li { background: transparent; border: 1px solid #cbd5e1; color: #334155; border-radius: 4px; }
+        .template-minimal .card-skills li:hover { background: #f1f5f9; border-color: #94a3b8; color: #0f172a; transform: none; box-shadow: none; }
+        .template-minimal .job:hover, .template-minimal .education:hover { background: transparent; border-color: transparent; transform: none; }
 
-        /* 2. Glassmorphism */
+        /* 2. Glassmorphism (Sticky Sidebar Layout) */
         .template-glassmorphism body {
             background-color: #0f172a;
             background-image: 
                 radial-gradient(circle at 0% 0%, rgba(var(--accent-color-rgb, 99,102,241), 0.35) 0%, transparent 50%),
                 radial-gradient(circle at 100% 100%, rgba(var(--accent-color-rgb, 99,102,241), 0.35) 0%, transparent 50%);
             color: #ffffff;
+            align-items: flex-start;
+        }
+        @media (min-width: 1024px) {
+            .template-glassmorphism .bento-grid { 
+                display: grid; 
+                grid-template-columns: 350px 1fr; 
+                grid-auto-rows: min-content;
+                gap: 2rem; 
+                align-items: start;
+                max-width: 1400px;
+            }
+            .template-glassmorphism .card-hero { grid-column: 1; grid-row: 1; position: sticky; top: 2rem; z-index: 10; }
+            .template-glassmorphism .card-contact { grid-column: 1; grid-row: 2; position: sticky; top: calc(2rem + 300px); z-index: 10; }
+            .template-glassmorphism .card-experience { grid-column: 2; grid-row: 1; }
+            .template-glassmorphism .card-education { grid-column: 2; grid-row: 2; }
+            .template-glassmorphism .card-skills { grid-column: 2; grid-row: 3; }
+            .template-glassmorphism .card-projects { grid-column: 2; grid-row: 4; }
         }
         .template-glassmorphism .bento-card, .template-glassmorphism .project {
             background-color: rgba(255, 255, 255, 0.03);
@@ -379,7 +403,7 @@
         .template-glassmorphism .contact-item a { color: var(--accent-color, #60a5fa); }
         .template-glassmorphism .card-skills li { background: rgba(var(--accent-color-rgb, 255,255,255), 0.15); border-color: rgba(255,255,255,0.1); color: #fff; }
 
-        /* 3. Cyberpunk */
+        /* 3. Cyberpunk (Asymmetrical Full-Width Terminal Layout) */
         .template-cyberpunk body {
             background-color: #050505;
             background-image: 
@@ -387,6 +411,21 @@
                 linear-gradient(90deg, rgba(var(--accent-color-rgb, 6, 182, 212), 0.15) 1px, transparent 1px);
             background-size: 30px 30px;
             color: #e2e8f0;
+        }
+        @media (min-width: 1024px) {
+            .template-cyberpunk .bento-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+                max-width: 1400px;
+            }
+            .template-cyberpunk .card-hero { grid-column: span 3; text-align: left; display: flex; flex-direction: column; align-items: flex-start; border-left: 4px solid var(--accent-color); }
+            .template-cyberpunk .card-contact { grid-column: span 3; flex-direction: row; flex-wrap: wrap; gap: 2rem; justify-content: flex-start; }
+            .template-cyberpunk .contact-links { display: flex; gap: 2rem; flex-wrap: wrap; width: 100%; }
+            .template-cyberpunk .card-skills { grid-column: span 3; border-right: 4px solid var(--accent-color); }
+            .template-cyberpunk .card-projects { grid-column: span 3; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+            .template-cyberpunk .card-experience { grid-column: span 2; }
+            .template-cyberpunk .card-education { grid-column: span 1; }
         }
         .template-cyberpunk .bento-card, .template-cyberpunk .project {
             background-color: rgba(5, 5, 5, 0.95);
@@ -400,25 +439,38 @@
             transform: translate(-2px, -2px);
         }
         .template-cyberpunk h1, .template-cyberpunk h2, .template-cyberpunk h3, .template-cyberpunk .card-header {
-            font-family: 'Space Grotesk', monospace;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 8px var(--accent-color, #06b6d4);
-            color: #ffffff;
+            font-family: 'Space Grotesk', monospace; text-transform: uppercase; letter-spacing: 2px;
+            text-shadow: 0 0 8px var(--accent-color, #06b6d4); color: #ffffff;
         }
         .template-cyberpunk .text-muted, .template-cyberpunk .job p, .template-cyberpunk .project p, .template-cyberpunk .card-hero p { color: #94a3b8; }
         .template-cyberpunk .contact-item a { color: var(--accent-color, #06b6d4); }
         .template-cyberpunk .card-skills li {
             border-radius: 0; background: transparent; border-color: var(--accent-color, #06b6d4); color: #fff;
-            text-shadow: 0 0 5px var(--accent-color, #06b6d4);
+            text-shadow: 0 0 5px var(--accent-color, #06b6d4); box-shadow: 2px 2px 0px var(--accent-color);
         }
+        .template-cyberpunk .card-skills li:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0px var(--accent-color); }
 
-        /* 4. Neobrutalism */
+        /* 4. Neobrutalism (Chaotic Masonry Grid) */
         .template-neobrutalism body { background-color: #fdf5e6; color: #000000; }
+        @media (min-width: 1024px) {
+            .template-neobrutalism .bento-grid {
+                display: grid;
+                grid-template-columns: repeat(12, 1fr);
+                grid-auto-flow: dense;
+                gap: 1.5rem;
+                max-width: 1400px;
+            }
+            .template-neobrutalism .card-hero { grid-column: span 8; }
+            .template-neobrutalism .card-contact { grid-column: span 4; }
+            .template-neobrutalism .card-experience { grid-column: span 7; }
+            .template-neobrutalism .card-education { grid-column: span 5; }
+            .template-neobrutalism .card-skills { grid-column: span 12; }
+            .template-neobrutalism .card-projects { grid-column: span 12; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        }
         .template-neobrutalism .bento-card, .template-neobrutalism .project {
             background-color: #ffffff;
-            border: 3px solid #000000;
-            border-radius: 8px;
+            border: 4px solid #000000;
+            border-radius: 0px;
             box-shadow: 8px 8px 0px #000000;
             color: #000000;
             transition: transform 0.1s, box-shadow 0.1s;
@@ -435,17 +487,19 @@
             color: #000000;
             text-shadow: 1px 1px 0px #ffffff, -1px -1px 0px #ffffff, 1px -1px 0px #ffffff, -1px 1px 0px #ffffff;
         }
-        .template-neobrutalism h1, .template-neobrutalism h2, .template-neobrutalism h3, .template-neobrutalism .card-header { color: #000000; font-weight: 800; }
+        .template-neobrutalism h1, .template-neobrutalism h2, .template-neobrutalism h3, .template-neobrutalism .card-header { color: #000000; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
         .template-neobrutalism .text-muted, .template-neobrutalism .job p, .template-neobrutalism .project p { color: #111111; font-weight: 500; }
-        .template-neobrutalism .contact-item a, .template-neobrutalism a { color: #000000; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+        .template-neobrutalism .contact-item a, .template-neobrutalism a { color: #000000; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; background: rgba(0,0,0,0.1); padding: 0 4px; }
         .template-neobrutalism .card-skills li {
-            background-color: #ffffff;
+            background-color: var(--accent-color, #f59e0b);
             color: #000000;
             border: 3px solid #000000;
             box-shadow: 4px 4px 0px #000000;
-            font-weight: 700;
+            font-weight: 800;
+            border-radius: 0;
         }
-    </style>
+        .template-neobrutalism .job:hover, .template-neobrutalism .education:hover { border-left-color: #000; background: rgba(0,0,0,0.05); }
+</style>
 </head>
 <body>
 

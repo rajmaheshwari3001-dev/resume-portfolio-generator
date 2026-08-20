@@ -161,8 +161,8 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     linkedin = resume_data.get("linkedin")
     github = resume_data.get("github")
     
-    if not any([email, phone, linkedin, github]):
-        raise Exception("Validation Error: Please provide at least one form of contact information (email, phone, or links).")
+    if not email and not phone:
+        raise Exception("Validation Error: Please provide an Email or Phone number. Links alone are not sufficient.")
         
     # Dynamically inject the extracted JSON data into the HTML template placeholders
     html_code = html_code.replace("{{name}}", name)
