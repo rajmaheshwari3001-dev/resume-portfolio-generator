@@ -103,7 +103,7 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     if not success:
         grok_api_key = os.environ.get("GROK_API_KEY")
         if grok_api_key:
-            grok_url = "https://api.xai.com/v1/chat/completions"
+            grok_url = "https://api.x.ai/v1/chat/completions"
             grok_payload = {
                 "model": "grok-beta",
                 "messages": [
