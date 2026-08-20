@@ -80,7 +80,7 @@ swatches.forEach(swatch => {
 });
 
 // File Upload Handling
-browseBtn.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('click', () => fileInput.click());
 
 fileInput.addEventListener('change', () => {
     if (fileInput.files.length > 0) {
