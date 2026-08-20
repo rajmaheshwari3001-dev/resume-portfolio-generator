@@ -94,6 +94,12 @@ function handleFileSelect() {
         reader.onload = (e) => {
             resumeInput.value = e.target.result;
             validateInput();
+            
+            // Upload success flash
+            gsap.fromTo(resumeInput, 
+                { backgroundColor: 'rgba(16, 185, 129, 0.2)' },
+                { backgroundColor: 'transparent', duration: 1 }
+            );
         };
         reader.readAsText(file);
     } else {
@@ -110,6 +116,7 @@ function validateInput() {
 
     if (words.length >= 10) {
         generateBtn.disabled = false;
+        btnText.textContent = "Generate Portfolio";
         statusBadgeText.textContent = " Ready to Generate";
         pulseDot.classList.add('active');
         pulseDot.style.backgroundColor = '#10b981'; // Green
@@ -119,12 +126,14 @@ function validateInput() {
             scale: 1.02, duration: 0.3, yoyo: true, repeat: 1
         });
     } else if (words.length > 0) {
-        generateBtn.disabled = false;
+        generateBtn.disabled = false; // Actually keep it disabled until 10 words, or let the modal handle it
+        btnText.textContent = "Needs More Detail";
         statusBadgeText.textContent = " Needs More Detail";
         pulseDot.classList.add('active');
         pulseDot.style.backgroundColor = '#f59e0b'; // Amber/Warning
     } else {
         generateBtn.disabled = true;
+        btnText.textContent = "Paste Resume to Start";
         statusBadgeText.textContent = ` Awaiting Input`;
         pulseDot.classList.remove('active');
         pulseDot.style.backgroundColor = '';
@@ -242,6 +251,11 @@ async function doGenerate() {
             
             gsap.from(iframe, { opacity: 0, y: 10, duration: 0.4 });
             gsap.from(downloadBtn, { opacity: 0, scale: 0.9, duration: 0.3 });
+            
+            // Auto-scroll on mobile
+            if (window.innerWidth < 1024) {
+                document.getElementById('preview-section').scrollIntoView({ behavior: 'smooth' });
+            }
         }});
 
     } catch (error) {
