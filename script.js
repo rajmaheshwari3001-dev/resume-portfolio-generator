@@ -50,6 +50,11 @@ themeCards.forEach(card => {
         themeCards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         selectedTheme = card.getAttribute('data-theme');
+        
+        // INSTANTLY update theme without calling API if iframe is loaded
+        if (iframe && !iframe.hidden && generatedHtml) {
+            iframe.contentWindow.document.body.className = 'template-' + selectedTheme;
+        }
     });
 });
 
@@ -59,6 +64,18 @@ swatches.forEach(swatch => {
         swatches.forEach(s => s.classList.remove('active'));
         swatch.classList.add('active');
         selectedThemeColor = swatch.getAttribute('data-color');
+        
+        // INSTANTLY update color without calling API
+        if (iframe && !iframe.hidden && generatedHtml) {
+            const hex = selectedThemeColor.replace('#', '');
+            const r = parseInt(hex.substring(0,2), 16);
+            const g = parseInt(hex.substring(2,4), 16);
+            const b = parseInt(hex.substring(4,6), 16);
+            const root = iframe.contentWindow.document.documentElement;
+            root.style.setProperty('--accent-color', selectedThemeColor, 'important');
+            root.style.setProperty('--accent', selectedThemeColor, 'important');
+            root.style.setProperty('--accent-color-rgb', \, \, \, 'important');
+        }
     });
 });
 
