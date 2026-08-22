@@ -13,6 +13,100 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* Light Theme Overrides */
+        .template-minimal {
+            --bg-base: #f8fafc;
+            --bg-surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        /* Glass Theme */
+        .template-glass {
+            --bg-base: #0f172a;
+            --bg-surface: rgba(255, 255, 255, 0.03);
+            --text-main: #ffffff;
+            --text-muted: #cbd5e1;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        .template-glass .timeline-item, .template-glass .project-card, .template-glass .nav-bar {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        .template-glass .bg-blob {
+            opacity: 0.4;
+            filter: blur(60px);
+        }
+
+        /* Cyberpunk Theme */
+        .template-cyberpunk {
+            --bg-base: #050510;
+            --bg-surface: #111122;
+            --text-main: #00ffcc;
+            --text-muted: #ff00ff;
+            --border-color: var(--accent);
+        }
+        .template-cyberpunk .timeline-item, .template-cyberpunk .project-card {
+            border-radius: 0;
+            border: 1px solid var(--accent);
+            box-shadow: 0 0 10px rgba(var(--accent-color-rgb), 0.2);
+        }
+        .template-cyberpunk .timeline-item:hover, .template-cyberpunk .project-card:hover {
+            box-shadow: 0 0 20px var(--accent);
+        }
+        .template-cyberpunk h1, .template-cyberpunk h2, .template-cyberpunk h3, .template-cyberpunk .section-title {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .template-cyberpunk .nav-bar {
+            border-radius: 0;
+            border-bottom: 2px solid var(--accent);
+        }
+        .template-cyberpunk .bg-blob {
+            display: none;
+        }
+
+        /* Neobrutal Theme */
+        .template-neobrutal {
+            --bg-base: #fdfaf6;
+            --bg-surface: #ffffff;
+            --text-main: #000000;
+            --text-muted: #333333;
+            --border-color: #000000;
+        }
+        .template-neobrutal .timeline-item, .template-neobrutal .project-card {
+            border: 3px solid #000;
+            border-radius: 8px;
+            box-shadow: 6px 6px 0px #000;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .template-neobrutal .timeline-item:hover, .template-neobrutal .project-card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 10px 10px 0px var(--accent);
+        }
+        .template-neobrutal .btn-primary {
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
+            color: #000;
+            font-weight: bold;
+        }
+        .template-neobrutal .btn-primary:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px var(--accent);
+        }
+        .template-neobrutal .nav-bar {
+            border: 3px solid #000;
+            border-radius: 8px;
+            box-shadow: 4px 4px 0px #000;
+            background: #fff;
+        }
+        .template-neobrutal .bg-blob {
+            display: none;
+        }
+
         :root {
             --bg-base: #0f1115;
             --bg-surface: #1a1d24;
@@ -142,7 +236,7 @@
             line-height: 1.1;
             margin-bottom: 1rem;
             letter-spacing: -0.02em;
-            background: linear-gradient(90deg, #fff, var(--text-muted));
+            background: linear-gradient(90deg, var(--text-main), var(--text-muted));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -469,7 +563,7 @@
             <a href="#projects" class="btn btn-primary">View Work</a>
             <a href="#contact" class="btn btn-outline">Contact Me</a>
         </div>
-        <div style="display:flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;"><a href="https://github.com/applicant" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'"><i data-lucide="github" style="width: 28px; height: 28px;"></i></a><a href="https://linkedin.com/in/applicant" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'"><i data-lucide="linkedin" style="width: 28px; height: 28px;"></i></a></div>
+        <div style="display:flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;"><a href="https://github.com/applicant" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color='var(--text-main)'" onmouseout="this.style.color='var(--text-muted)'"><i data-lucide="github" style="width: 28px; height: 28px;"></i></a><a href="https://linkedin.com/in/applicant" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color='var(--text-main)'" onmouseout="this.style.color='var(--text-muted)'"><i data-lucide="linkedin" style="width: 28px; height: 28px;"></i></a></div>
     </section>
 
     <!-- Main Content -->
@@ -477,7 +571,7 @@
         <section id="experience" class="section-container" aria-label="Work Experience"><h2 class="section-title">Experience</h2><div class="timeline-item"><h3>Senior AI Engineer at Tech Innovations Inc.</h3><p class="duration">Jan 2023 - Present</p><p>Developed and deployed generative AI chatbots using Google Gemini API. Improved model latency by 40% through efficient prompt engineering and strict JSON validation. Spearheaded the transition to serverless architectures using Vercel.</p></div></section>
         <section id="education" class="section-container" aria-label="Education and Achievements"><h2 class="section-title">Education</h2><div class="timeline-item"><h3>B.S. in Computer Science</h3><p class="duration">University of Technology &bull; 2018 - 2022</p></div></section>
         <section id="skills" class="section-container" aria-label="Skills"><h2 class="section-title">Core Competencies</h2><div class="skills-container"><div class="skill-tag">Python</div><div class="skill-tag">JavaScript</div><div class="skill-tag">React</div><div class="skill-tag">FastAPI</div><div class="skill-tag">Machine Learning</div><div class="skill-tag">Google Gemini API</div><div class="skill-tag">Prompt Engineering</div><div class="skill-tag">HTML/CSS</div><div class="skill-tag">Git</div><div class="skill-tag">Vercel</div></div></section>
-        <section id="projects" class="section-container" aria-label="Projects"><h2 class="section-title">Featured Projects</h2><div class="projects-grid"><div class="project-card"><h3>AI Resume to Portfolio Generator</h3><p>Created an intelligent system that transforms plain text resumes into stunning, responsive web portfolios using Python and Gemini AI. Implemented a Cyber-Minimalist UI with advanced CSS animations.</p><div class="tech-tags">Python, Gemini AI, CSS</div></div></div></section>
+        <section id="projects" class="section-container" aria-label="Projects"><h2 class="section-title">Featured Projects</h2><div class="projects-grid"><div class="project-card"><h3>AI Resume to Portfolio Generator</h3><p>Created an intelligent system that transforms plain text resumes into stunning, responsive web portfolios using Python and Gemini AI. Implemented a Cyber-Minimalist UI with advanced CSS animations.</p><div class="tech-tags">Python, Gemini AI, HTML/CSS</div></div></div></section>
     </main>
 
     <!-- Contact Section -->
@@ -495,7 +589,13 @@
     </footer>
 
     <script>
-        lucide.createIcons();
+        // Ensure Lucide icons load even when dynamically injected
+        let lucideInterval = setInterval(() => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+                clearInterval(lucideInterval);
+            }
+        }, 100);
 
         // Intersection Observer for Scroll Animations
         document.addEventListener('DOMContentLoaded', () => {
