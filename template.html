@@ -494,7 +494,13 @@
     </footer>
 
     <script>
-        lucide.createIcons();
+        // Ensure Lucide icons load even when dynamically injected
+        let lucideInterval = setInterval(() => {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+                clearInterval(lucideInterval);
+            }
+        }, 100);
 
         // Intersection Observer for Scroll Animations
         document.addEventListener('DOMContentLoaded', () => {

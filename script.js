@@ -192,14 +192,15 @@ generateBtn.addEventListener('click', async () => {
     let errorMsg = "";
 
     const hasSkills = lowerText.includes('skill');
-    const hasNameOrContact = text.includes('@') || /[0-9]{7,}/.test(text) || lowerText.includes('name');
+    const hasName = lowerText.includes('name');
+    const hasContact = text.includes('@') || /[0-9]{7,}/.test(text);
 
     if (words.length < 10) {
         isValid = false;
         errorMsg = "Your input is too short. Please provide at least 10 words.";
-    } else if (!hasSkills || !hasNameOrContact) {
+    } else if (!hasSkills || !hasName || !hasContact) {
         isValid = false;
-        errorMsg = "Strict Validation Failed: Your resume MUST contain a 'Skills' section and basic contact information (Email/Phone) or 'Name' before generating.";
+        errorMsg = "Strict Validation Failed: Your resume MUST contain a 'Name', a 'Skills' section, and basic contact information (Email/Phone) before generating.";
     } else if (
         !lowerText.includes('experience') && 
         !lowerText.includes('education') && 
@@ -213,7 +214,7 @@ generateBtn.addEventListener('click', async () => {
 
     if (!isValid) {
         validationMsg.textContent = errorMsg;
-        if (!hasSkills || !hasNameOrContact) {
+        if (!hasSkills || !hasName || !hasContact) {
             proceedGenerateBtn.style.display = 'none'; // Mandatory fields missing
         } else {
             proceedGenerateBtn.style.display = 'inline-block';
