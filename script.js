@@ -74,7 +74,7 @@ swatches.forEach(swatch => {
             const root = iframe.contentWindow.document.documentElement;
             root.style.setProperty('--accent-color', selectedThemeColor, 'important');
             root.style.setProperty('--accent', selectedThemeColor, 'important');
-            root.style.setProperty('--accent-color-rgb', \, \, \, 'important');
+            root.style.setProperty('--accent-color-rgb', `${r}, ${g}, ${b}`, 'important');
         }
     });
 });
