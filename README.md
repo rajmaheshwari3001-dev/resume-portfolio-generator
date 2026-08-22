@@ -21,7 +21,7 @@ The **AI-Assisted Resume Portfolio Generator** uses the **Google Gemini API** to
 - **Interactive Portfolio Chatbot**: The generated web app includes a floating AI Copilot that dynamically answers questions about your specific portfolio data.
 - **Portable Export**: Instantly download a 100% self-contained `portfolio.html` with a beautiful Bento Box layout and embedded CSS.
 - **Zero-Config Deployment**: Built to deploy seamlessly on serverless platforms like Vercel.
-- **Smart & Relaxed Validation**: Live status indicators dynamically warn you if your input is too short. Hard constraints are relaxed with a new "Proceed Anyway" override, allowing ultimate flexibility without wasting API credits on accidents.
+- **Smart & Strict Validation**: Live status indicators dynamically warn you if your input is too short. Hard constraints are strictly enforced to explicitly require a Name and Contact info to prevent generating blank portfolios, while still allowing a "Proceed Anyway" override for flexibility.
 
 ## 🛠 Setup & Run Instructions
 
@@ -65,6 +65,8 @@ Our prompt rigorously enforces a strict JSON format. It aggressively commands Ge
 - **Missing API Key**: Immediately halts with configuration error message.
 - **API High Demand (503)**: Handled gracefully using exponential backoff retries.
 - **Missing Resume Sections**: Successfully skips creating HTML wrappers for empty fields, preventing UI bugs.
+- **Theme Selection**: Verified real-time dynamic injection and rendering of 5 premium themes (including Glassmorphism, Cyberpunk, and Neobrutalism).
+- **Icon Rendering**: Handled race conditions with dynamically injected SVG icons in the iframe preview by managing CSS classes and timeouts.
 
 ## 📸 Screenshots
 *(Screenshot of the generated Cyberpunk portfolio)*
