@@ -258,9 +258,9 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     if linkedin or github:
         hero_links_html = '<div style="display:flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;">'
         if github: 
-            hero_links_html += f'<a href="{github}" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color=\'#fff\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i data-lucide="github" style="width: 28px; height: 28px;"></i></a>'
+            hero_links_html += f'<a href="{github}" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color=\'var(--text-main)\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i data-lucide="github" style="width: 28px; height: 28px;"></i></a>'
         if linkedin: 
-            hero_links_html += f'<a href="{linkedin}" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color=\'#fff\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i data-lucide="linkedin" style="width: 28px; height: 28px;"></i></a>'
+            hero_links_html += f'<a href="{linkedin}" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color=\'var(--text-main)\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i data-lucide="linkedin" style="width: 28px; height: 28px;"></i></a>'
         hero_links_html += '</div>'
     html_code = html_code.replace("{{hero_links_section}}", hero_links_html)
 
