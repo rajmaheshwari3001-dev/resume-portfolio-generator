@@ -31,6 +31,7 @@ const errorMsg = document.getElementById('error-message');
 const emptyState = document.querySelector('.empty-state');
 const iframe = document.getElementById('portfolio-frame');
 const downloadBtn = document.getElementById('download-btn');
+const fullscreenBtn = document.getElementById('fullscreen-btn');
 const statusBadgeText = document.querySelector('.status-indicator').lastChild;
 const pulseDot = document.querySelector('.dot');
 const themeCards = document.querySelectorAll('.theme-card');
@@ -248,6 +249,7 @@ async function doGenerate() {
     emptyState.querySelector('p').textContent = "Building your portfolio.";
     iframe.hidden = true;
     downloadBtn.hidden = true;
+    fullscreenBtn.hidden = true;
     pulseDot.style.animationDuration = "0.5s";
 
     const templateStyle = selectedTheme;
@@ -276,6 +278,7 @@ async function doGenerate() {
             emptyState.hidden = true;
             iframe.hidden = false;
             downloadBtn.hidden = false;
+            fullscreenBtn.hidden = false;
             
             // Write HTML
             const iframeDoc = iframe.contentWindow.document;
@@ -334,3 +337,40 @@ function showError(msg) {
         gsap.to(errorMsg, { opacity: 0, duration: 0.3, onComplete: () => errorMsg.hidden = true });
     }, 5000);
 }
+
+// Fullscreen Logic
+fullscreenBtn.addEventListener('click', toggleFullScreen);
+
+function toggleFullScreen() {
+    if (!document.fullscreenElement) {
+        // Request fullscreen on the preview container so it looks good, or just the iframe. 
+        // Iframe is better so it fills the whole screen natively.
+        if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+        } else if (iframe.webkitRequestFullscreen) { /* Safari */
+            iframe.webkitRequestFullscreen();
+        } else if (iframe.msRequestFullscreen) { /* IE11 */
+            iframe.msRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    // If portfolio is generated and user is not typing in the textarea
+    if (!iframe.hidden && document.activeElement !== resumeInput) {
+        if (e.key.toLowerCase() === 'f') {
+            e.preventDefault();
+            toggleFullScreen();
+        }
+        // Esc is handled by the browser natively to exit fullscreen
+    }
+});

@@ -13,7 +13,7 @@ except ImportError:
 
 html_code_cache = None
 
-def generate_portfolio_html(resume_text: str, template: str = "standard", theme_color: str = "#6366F1") -> str:
+def generate_portfolio_html(resume_text: str, template: str = "standard", theme_color: str = "#6366F1") -> tuple:
     # Remove unnecessary spaces and blank lines (Rubric requirement)
     cleaned_resume_text = "\n".join([line.strip() for line in resume_text.split('\n') if line.strip()])
     
@@ -152,9 +152,12 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     html_code = html_code.replace("</head>", f"    {theme_style}\n</head>")
     html_code = html_code.replace("<body>", f"<body class='template-{template}'>")
         
+    warnings = []
+    
     name = resume_data.get("name")
     if not name or name.strip() == "" or "your name" in name.lower() or "applicant" in name.lower():
-        raise Exception("Validation Error: Missing Name. Please provide your actual name in the resume.")
+        warnings.append("Name")
+        name = "Name Not Provided"
     
     email = resume_data.get("email")
     phone = resume_data.get("phone")
@@ -162,7 +165,10 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     github = resume_data.get("github")
     
     if not email and not phone:
-        raise Exception("Validation Error: Please provide an Email or Phone number. Links alone are not sufficient.")
+        warnings.append("Contact (Email or Phone)")
+        
+    if not linkedin:
+        warnings.append("LinkedIn")
         
     # Dynamically inject the extracted JSON data into the HTML template placeholders
     html_code = html_code.replace("{{name}}", name)
@@ -187,18 +193,18 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     has_edu = isinstance(edu_list, list) and len(edu_list) > 0
     has_ach = isinstance(achievements_list, list) and len(achievements_list) > 0
     if has_edu or has_ach:
-        edu_achievements_html = '<section class="bento-card card-education" aria-label="Education and Achievements">'
+        edu_achievements_html = '<section id="education" class="section-container" aria-label="Education and Achievements">'
         if has_edu:
-            edu_achievements_html += '<div class="card-header">Education</div>'
+            edu_achievements_html += '<h2 class="section-title">Education</h2>'
             for edu in edu_list:
                 if isinstance(edu, dict):
-                    edu_achievements_html += f'<div class="education"><h3>{edu.get("degree", "")}</h3><p><strong>{edu.get("institution", "")}</strong> {edu.get("year", "")}</p></div>'
+                    edu_achievements_html += f'<div class="timeline-item"><h3>{edu.get("degree", "")}</h3><p class="duration">{edu.get("institution", "")} &bull; {edu.get("year", "")}</p></div>'
         if has_edu and has_ach:
             edu_achievements_html += '<br>'
         if has_ach:
-            edu_achievements_html += '<div class="card-header">Achievements</div><ul>'
+            edu_achievements_html += '<h2 class="section-title">Achievements</h2><ul class="achievements-list">'
             for ach in achievements_list:
-                edu_achievements_html += f'<li style="list-style:disc; margin-left:20px; margin-bottom:5px">{ach}</li>'
+                edu_achievements_html += f'<li>{ach}</li>'
             edu_achievements_html += '</ul>'
         edu_achievements_html += '</section>'
     html_code = html_code.replace("{{education_achievements_section}}", edu_achievements_html)
@@ -207,10 +213,10 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     exp_list = resume_data.get("experience", [])
     exp_html = ''
     if isinstance(exp_list, list) and len(exp_list) > 0:
-        exp_html = '<section class="bento-card card-experience" aria-label="Work Experience"><div class="card-header">Experience</div>'
+        exp_html = '<section id="experience" class="section-container" aria-label="Work Experience"><h2 class="section-title">Experience</h2>'
         for exp in exp_list:
             if isinstance(exp, dict):
-                exp_html += f'<div class="job"><h3>{exp.get("role", "")} at {exp.get("company", "")}</h3><p class="duration">{exp.get("duration", "")}</p><p>{exp.get("description", "")}</p></div>'
+                exp_html += f'<div class="timeline-item"><h3>{exp.get("role", "")} at {exp.get("company", "")}</h3><p class="duration">{exp.get("duration", "")}</p><p>{exp.get("description", "")}</p></div>'
         exp_html += '</section>'
     html_code = html_code.replace("{{experience_section}}", exp_html)
 
@@ -218,37 +224,47 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     proj_list = resume_data.get("projects", [])
     proj_html = ''
     if isinstance(proj_list, list) and len(proj_list) > 0:
-        proj_html = '<section class="card-projects" aria-label="Projects">'
+        proj_html = '<section id="projects" class="section-container" aria-label="Projects"><h2 class="section-title">Featured Projects</h2><div class="projects-grid">'
         for proj in proj_list:
             if isinstance(proj, dict):
-                proj_html += f'<div class="project"><h3>{proj.get("title", "")}</h3><p>{proj.get("description", "")}</p><p style="margin-top:0.5rem"><strong>Technologies:</strong> {proj.get("technologies", "")}</p></div>'
-        proj_html += '</section>'
+                proj_html += f'<div class="project-card"><h3>{proj.get("title", "")}</h3><p>{proj.get("description", "")}</p><div class="tech-tags">{proj.get("technologies", "")}</div></div>'
+        proj_html += '</div></section>'
     html_code = html_code.replace("{{projects_section}}", proj_html)
 
     # Skills
     skills_list = resume_data.get("skills", [])
     skills_html = ''
     if isinstance(skills_list, list) and len(skills_list) > 0:
-        skills_html = '<section class="bento-card card-skills" aria-label="Skills"><div class="card-header">Core Competencies</div><ul>'
+        skills_html = '<section id="skills" class="section-container" aria-label="Skills"><h2 class="section-title">Core Competencies</h2><div class="skills-container">'
         for skill in skills_list:
-            skills_html += f'<li>{skill}</li>'
-        skills_html += '</ul></section>'
+            skills_html += f'<div class="skill-tag">{skill}</div>'
+        skills_html += '</div></section>'
     html_code = html_code.replace("{{skills_section}}", skills_html)
 
     phone = resume_data.get("phone", "")
-    html_code = html_code.replace("{{phone_section}}", f'<div class="contact-item"><span>Phone</span><a href="tel:{phone}">{phone}</a></div>' if phone else "")
+    html_code = html_code.replace("{{phone_section}}", f'<div class="contact-item" style="display:flex; align-items:center; gap:8px;"><i data-lucide="phone" style="color:var(--accent); width:18px;"></i><a href="tel:{phone}">{phone}</a></div>' if phone else "")
     
     linkedin = resume_data.get("linkedin", "")
     github = resume_data.get("github", "")
     links_html = ""
-    if linkedin or github:
-        links_html = "<p>Links: "
-        if linkedin: links_html += f"<a href='{linkedin}'>LinkedIn</a> "
-        if github: links_html += f"<a href='{github}'>GitHub</a>"
-        links_html += "</p>"
+    if linkedin: 
+        links_html += f'<div class="contact-item" style="display:flex; align-items:center; gap:8px;"><i data-lucide="linkedin" style="color:var(--accent); width:18px;"></i><a href="{linkedin}">LinkedIn</a></div>'
+    if github: 
+        links_html += f'<div class="contact-item" style="display:flex; align-items:center; gap:8px;"><i data-lucide="github" style="color:var(--accent); width:18px;"></i><a href="{github}">GitHub</a></div>'
+    
     html_code = html_code.replace("{{links_section}}", links_html)
 
-    return html_code
+    hero_links_html = ""
+    if linkedin or github:
+        hero_links_html = '<div style="display:flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;">'
+        if github: 
+            hero_links_html += f'<a href="{github}" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color=\'#fff\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i data-lucide="github" style="width: 28px; height: 28px;"></i></a>'
+        if linkedin: 
+            hero_links_html += f'<a href="{linkedin}" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color=\'#fff\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i data-lucide="linkedin" style="width: 28px; height: 28px;"></i></a>'
+        hero_links_html += '</div>'
+    html_code = html_code.replace("{{hero_links_section}}", hero_links_html)
+
+    return html_code, warnings
 
 if __name__ == "__main__":
     import sys
@@ -267,7 +283,9 @@ if __name__ == "__main__":
     max_retries = 5
     for attempt in range(max_retries):
         try:
-            final_html = generate_portfolio_html(resume_text)
+            final_html, warnings = generate_portfolio_html(resume_text)
+            if warnings:
+                print("Warnings:", ", ".join(warnings))
             with open("portfolio.html", "w", encoding="utf-8") as f:
                 f.write(final_html)
             print("Success! Generated portfolio.html")

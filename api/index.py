@@ -21,8 +21,8 @@ class ResumeRequest(BaseModel):
 @app.post("/api/generate")
 async def api_generate(req: ResumeRequest):
     try:
-        html = generate_portfolio_html(req.prompt, req.template, req.theme_color)
-        return {"html": html}
+        html, warnings = generate_portfolio_html(req.prompt, req.template, req.theme_color)
+        return {"html": html, "warnings": warnings}
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
 
