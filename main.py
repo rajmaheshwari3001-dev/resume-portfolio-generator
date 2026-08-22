@@ -242,25 +242,25 @@ def generate_portfolio_html(resume_text: str, template: str = "standard", theme_
     html_code = html_code.replace("{{skills_section}}", skills_html)
 
     phone = resume_data.get("phone", "")
-    html_code = html_code.replace("{{phone_section}}", f'<div class="contact-item" style="display:flex; align-items:center; gap:8px;"><i data-lucide="phone" style="color:var(--accent); width:18px;"></i><a href="tel:{phone}">{phone}</a></div>' if phone else "")
+    html_code = html_code.replace("{{phone_section}}", f'<div class="contact-item"><i data-lucide="phone"></i><a href="tel:{phone}">{phone}</a></div>' if phone else "")
     
     linkedin = resume_data.get("linkedin", "")
     github = resume_data.get("github", "")
     links_html = ""
     if linkedin: 
-        links_html += f'<div class="contact-item" style="display:flex; align-items:center; gap:8px;"><i data-lucide="linkedin" style="color:var(--accent); width:18px;"></i><a href="{linkedin}">LinkedIn</a></div>'
+        links_html += f'<div class="contact-item"><i data-lucide="linkedin"></i><a href="{linkedin}">LinkedIn</a></div>'
     if github: 
-        links_html += f'<div class="contact-item" style="display:flex; align-items:center; gap:8px;"><i data-lucide="github" style="color:var(--accent); width:18px;"></i><a href="{github}">GitHub</a></div>'
+        links_html += f'<div class="contact-item"><i data-lucide="github"></i><a href="{github}">GitHub</a></div>'
     
     html_code = html_code.replace("{{links_section}}", links_html)
 
     hero_links_html = ""
     if linkedin or github:
-        hero_links_html = '<div style="display:flex; gap: 1.5rem; justify-content: center; margin-top: 2rem;">'
+        hero_links_html = '<div class="hero-socials">'
         if github: 
-            hero_links_html += f'<a href="{github}" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color=\'var(--text-main)\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i data-lucide="github" style="width: 28px; height: 28px;"></i></a>'
+            hero_links_html += f'<a href="{github}" class="social-icon"><i data-lucide="github"></i></a>'
         if linkedin: 
-            hero_links_html += f'<a href="{linkedin}" style="color: var(--text-muted); transition: color 0.3s;" onmouseover="this.style.color=\'var(--text-main)\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i data-lucide="linkedin" style="width: 28px; height: 28px;"></i></a>'
+            hero_links_html += f'<a href="{linkedin}" class="social-icon"><i data-lucide="linkedin"></i></a>'
         hero_links_html += '</div>'
     html_code = html_code.replace("{{hero_links_section}}", hero_links_html)
 

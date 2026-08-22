@@ -503,6 +503,29 @@
 
         .contact-item i {
             color: var(--accent);
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-socials {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .social-icon {
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: var(--text-main);
+        }
+
+        .social-icon i {
+            width: 28px;
+            height: 28px;
         }
 
         .contact-item a {
@@ -591,7 +614,7 @@
         // Ensure Lucide icons load even when dynamically injected
         let lucideInterval = setInterval(() => {
             if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
+                setTimeout(() => lucide.createIcons(), 50);
                 clearInterval(lucideInterval);
             }
         }, 100);
